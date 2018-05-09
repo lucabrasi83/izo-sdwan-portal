@@ -15,7 +15,7 @@ export class AppComponent
         // private translate: TranslateService,
         private fuseNavigationService: FuseNavigationService,
         private fuseSplashScreen: FuseSplashScreenService,
-        private router: Router
+        public router: Router
         // private fuseTranslationLoader: FuseTranslationLoaderService
     )
     {
