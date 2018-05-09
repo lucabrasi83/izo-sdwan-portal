@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { FuseSplashScreenService } from '@fuse/services/splash-screen.service';
 import { FuseNavigationService } from '@fuse/components/navigation/navigation.service';
-import {LoginService} from './login/login.service';
+import {Router} from '@angular/router';
 
 
 @Component({
@@ -15,7 +15,7 @@ export class AppComponent
         // private translate: TranslateService,
         private fuseNavigationService: FuseNavigationService,
         private fuseSplashScreen: FuseSplashScreenService,
-        public authService: LoginService
+        private router: Router
         // private fuseTranslationLoader: FuseTranslationLoaderService
     )
     {

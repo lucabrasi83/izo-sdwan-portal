@@ -33,7 +33,7 @@ export class LoginService {
       .then((res) => this.router.navigate(['/']));
   }
   isLoggedIn() {
-    if (this.userDetails == null ) {
+    if (this.userDetails === null ) {
       return false;
     } else {
       return true;

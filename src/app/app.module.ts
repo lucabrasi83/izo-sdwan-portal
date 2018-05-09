@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { RouterModule, Routes } from '@angular/router';
+import { RouterModule, Routes, CanActivate } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import 'hammerjs';
 
@@ -28,6 +28,8 @@ import { AngularFireAuthModule } from 'angularfire2/auth';
 import { LoginComponent } from './login/login.component';
 import {LoginService} from './login/login.service';
 import {LoginModule} from './login/login.module';
+import {AuthguardService} from './authguard/authguard.service';
+
 
 const appRoutes: Routes = [
   {
@@ -36,15 +38,18 @@ const appRoutes: Routes = [
   },
     {
         path      : 'main',
-        component: FuseMainComponent
+        component: FuseMainComponent,
+      canActivate: [AuthguardService]
     },
   {
     path      : 'appqos',
-    component: AppqosComponent
+    component: AppqosComponent,
+    canActivate: [AuthguardService]
   },
   {
     path      : 'tasks',
-    component: TaskviewerComponent
+    component: TaskviewerComponent,
+    canActivate: [AuthguardService]
   }
 ];
 
@@ -82,7 +87,7 @@ const appRoutes: Routes = [
     bootstrap   : [
         AppComponent
     ],
-    providers: [LoginService]
+    providers: [LoginService, AuthguardService]
 })
 export class AppModule
 {
