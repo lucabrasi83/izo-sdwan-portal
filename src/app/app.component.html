@@ -1,0 +1,15 @@
+<!--<fuse-main></fuse-main>-->
+<mat-sidenav-container *ngIf="authService.isLoggedIn()">
+
+  <div>
+
+    <!-- TOOLBAR: Above -->
+    <ng-container>
+      <fuse-toolbar class="above" [ngClass]="'mat-light-blue-500-bg'"></fuse-toolbar>
+    </ng-container>
+  </div>
+</mat-sidenav-container>
+
+<router-outlet></router-outlet>
+
+

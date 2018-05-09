@@ -1,0 +1,174 @@
+
+<div class="content p-24" id="fuse-main-content" fusePerfectScrollbar>
+  <button mat-fab color="warn" [ngClass]="{'button-follow-1': true}"
+          (click)="staticRouteForm(row)" disabled={{!rowSelected}}
+          matTooltip="Manage Static Routes">
+    <mat-icon class="mat-36" aria-label="Static Routes">router</mat-icon>
+  </button>
+  <button mat-fab color="accent" [ngClass]="{'button-follow-2': true}"
+          disabled={{!rowSelected}}
+          matTooltip="Site Failover">
+    <mat-icon class="mat-36" aria-label="Site Failover">swap_vertical_circle</mat-icon>
+  </button>
+  <button mat-fab color="" [ngClass]="{'button-follow-3': true}"
+          disabled={{!rowSelected}}
+          matTooltip="Poll Device">
+    <mat-icon class="mat-36" aria-label="Poll Device">loop</mat-icon>
+  </button>
+
+  <div class="mat-elevation-z8" flex fxLayout="row" fxLayoutAlign="start center" style="padding:8px;margin:15px auto;width:50%;">
+    <mat-icon>search</mat-icon>
+    <div style="width: 100%;display: flex; flex-direction: column;">
+      <mat-form-field color="accent" style="padding:8px;">
+        <input type="text" matInput (keyup)="updateFilter($event)" placeholder="Filter Inventory Data...">
+      </mat-form-field>
+    </div>
+  </div>
+
+<div class="content p-24" fusePerfectScrollbar>
+                <ngx-datatable
+                  #table
+                  [rows]="rows"
+                  class="material"
+                  [columnMode]="'force'"
+                  [sortType]="'multi'"
+                  [headerHeight]="50"
+                  [footerHeight]="70"
+                  [rowHeight]="'auto'"
+                  [limit]="20"
+                  [selectionType]="'checkbox'"
+
+                  >
+                  <ngx-datatable-footer>
+                    <ng-template
+                      ngx-datatable-footer-template
+                      let-rowCount="rowCount"
+                      let-pageSize="pageSize"
+                      let-selectedCount="selectedCount"
+                      let-curPage="curPage"
+                      let-offset="offset">
+                      <div style="padding: 5px 10px">
+                        <div>
+                          Total Devices: {{rowCount}}
+                        </div>
+                      </div>
+                      <div style="padding: 5px 10px">
+                        <div>
+                          Items Per Page:
+                        </div>
+                      </div>
+                      <div style="padding: 5px 10px">
+                        <div>
+                          <mat-form-field>
+                            <mat-select placeholder=""
+                                        class="mat-select-content"
+                                        style="font-size: 12px"
+                                        (selectionChange)="onLimitChange($event)"
+                                        >
+                              <mat-option [value]="5">
+                                5
+                              </mat-option>
+                              <mat-option [value]="10">
+                                10
+                              </mat-option>
+                              <mat-option [value]="25">
+                                25
+                              </mat-option>
+                              <mat-option [value]="100">
+                                100
+                              </mat-option>
+                            </mat-select>
+                          </mat-form-field>
+                        </div>
+                      </div>
+                      <datatable-pager
+                        [pagerLeftArrowIcon]="'datatable-icon-left'"
+                        [pagerRightArrowIcon]="'datatable-icon-right'"
+                        [pagerPreviousIcon]="'datatable-icon-prev'"
+                        [pagerNextIcon]="'datatable-icon-skip'"
+                        [page]="curPage"
+                        [size]="pageSize"
+                        [count]="rowCount"
+                        [hidden]="!((rowCount / pageSize) > 1)"
+                        (change)="table.onFooterPage($event)">
+                      </datatable-pager>
+                    </ng-template>
+
+                  </ngx-datatable-footer>
+                  <ngx-datatable-column
+                                        [canAutoResize]="true"
+                                        [sortable]="false" name="" [width]="35">
+                   <!-- <ng-template ngx-datatable-header-template let-value="value" let-allRowsSelected="allRowsSelected"
+                                 let-selectFn="selectFn">
+                      <mat-checkbox [checked]="allRowsSelected" (change)="selectFn(!allRowsSelected)"></mat-checkbox>
+                    </ng-template>-->
+
+                    <ng-template ngx-datatable-cell-template let-value="value" let-isSelected="isSelected"
+                                 let-onCheckboxChangeFn="onCheckboxChangeFn" let-row="row">
+                     <!-- <mat-checkbox [checked]="isSelected"
+                                    (change)="onCheckboxChangeFn($event)"
+
+                      ></mat-checkbox>-->
+
+                      <mat-radio-button value="value" (click)="onSelect(row)"></mat-radio-button>
+
+                    </ng-template>
+                  </ngx-datatable-column>
+
+                  <ngx-datatable-column name="Site Name" prop="site_name" [canAutoResize]="true" [width]="200">
+
+                  </ngx-datatable-column>
+
+                  <ngx-datatable-column name="Device Name" prop="device_name" [canAutoResize]="true" [width]="300">
+
+                  </ngx-datatable-column>
+
+                  <ngx-datatable-column name="Status" prop="status" [canAutoResize]="true" [width]="90">
+
+                    <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
+
+                      <mat-chip-list *ngIf="value=='ONLINE'">
+                    <mat-chip selected="true" [ngStyle]="{ backgroundColor: '#00c853' }" color="warn">
+                      {{value}}
+                    </mat-chip>
+                      </mat-chip-list>
+
+                      <mat-chip-list *ngIf="value=='OFFLINE'">
+                        <mat-chip color="warn" selected="true">
+                          {{value}}
+                        </mat-chip>
+                      </mat-chip-list>
+                    </ng-template>
+
+                  </ngx-datatable-column>
+                  <ngx-datatable-column name="Device Model" prop="device_model" [canAutoResize]="true" [width]="100">
+
+                  </ngx-datatable-column>
+                  <ngx-datatable-column name="Serial Number" prop="sn"></ngx-datatable-column>>
+                  <ngx-datatable-column name="OS Version" prop="os_version" [canAutoResize]="true" [width]="35">
+
+                  </ngx-datatable-column>
+                  <ngx-datatable-column name="Activation Status" prop="activation_status" [canAutoResize]="true">
+                    <ng-template ngx-datatable-cell-template let-value="value" let-row="row" let-rowIndex="rowIndex">
+                      <mat-slide-toggle *ngIf="value=='ACTIVATED'" color="accent" checked="true" disabled="true">
+                      {{value}}
+                      </mat-slide-toggle>
+                      <mat-slide-toggle *ngIf="value=='PENDING'" color="accent" checked="false"
+                                        (change)="onToggle(row)">
+                       {{value}}
+                      </mat-slide-toggle>
+                    </ng-template>
+                  </ngx-datatable-column>
+                  <!--<ngx-datatable-column name="Failover Status" prop="failover_status"></ngx-datatable-column>-->
+
+
+
+                </ngx-datatable>
+</div>
+  </div>
+
+
+
+
+
+

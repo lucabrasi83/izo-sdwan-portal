@@ -1,0 +1,25 @@
+@import 'src/@fuse/scss/fuse';
+
+.mat-tab-labels{
+  justify-content: center; /* align items in Main Axis */
+}
+
+.mat-tab-group {
+  .mat-tab-header {
+    background-color: #00b0ff;
+  }
+  .mat-tab-label {
+    color: white !important;
+    font-size: 14px;
+  }
+  .mat-ink-bar {
+    color: white !important;
+    background-color: white !important;
+  }
+  .mat-tab-label-active {
+    color: white !important;
+    opacity: 1 !important;
+  }
+
+}
+
