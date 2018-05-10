@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
 import { NavigationEnd, NavigationStart, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 
@@ -20,6 +20,7 @@ export class FuseToolbarComponent
     showLoadingBar: boolean;
     horizontalNav: boolean;
     noNav: boolean;
+    userEmail: string;
 
     constructor(
         private router: Router,
@@ -89,6 +90,8 @@ export class FuseToolbarComponent
             this.noNav = settings.layout.navigation === 'none';
         });
 
+        this.userEmail = this.authService.isAuthenticated().email;
+
     }
 
     toggleSidebarOpened(key)
@@ -110,4 +113,5 @@ export class FuseToolbarComponent
         // Use the selected language for translations
         this.translate.use(lang.id);
     }
+
 }

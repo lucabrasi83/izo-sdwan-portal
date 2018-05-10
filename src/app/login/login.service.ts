@@ -28,16 +28,22 @@ export class LoginService {
     const credential = firebase.auth.EmailAuthProvider.credential( email, password );
     return this._firebaseAuth.auth.signInWithEmailAndPassword(email, password);
   }
+
   logout() {
     this._firebaseAuth.auth.signOut()
       .then((res) => this.router.navigate(['/']));
   }
+
   isLoggedIn() {
     if (this.userDetails === null ) {
       return false;
     } else {
       return true;
     }
+  }
+
+  isAuthenticated() {
+    return this._firebaseAuth.auth.currentUser;
   }
 
 }

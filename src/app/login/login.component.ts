@@ -54,7 +54,6 @@ export class LoginComponent implements OnInit {
     this.showLoadingBar = true;
     this.authService.signInRegular(email.value, password.value)
       .then((res) => {
-        console.log(res);
 
         this.router.navigate(['main']);
 
