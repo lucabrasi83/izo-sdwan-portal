@@ -3,19 +3,20 @@ import { Router } from '@angular/router';
 import { AngularFireAuth } from 'angularfire2/auth';
 import * as firebase from 'firebase/app';
 import { Observable } from 'rxjs/Observable';
+import { AngularFireDatabase } from 'angularfire2/database';
 
 @Injectable()
 export class LoginService {
   private user: Observable<firebase.User>;
   public userDetails: firebase.User = null;
 
-  constructor(private _firebaseAuth: AngularFireAuth, private router: Router) {
+  constructor(private _firebaseAuth: AngularFireAuth, private router: Router, private db: AngularFireDatabase) {
     this.user = _firebaseAuth.authState;
     this.user.subscribe(
       (user) => {
         if (user) {
           this.userDetails = user;
-          console.log(this.userDetails);
+          // console.log(this.userDetails);
         }
         else {
           this.userDetails = null;
@@ -26,12 +27,19 @@ export class LoginService {
 
   signInRegular(email, password) {
     const credential = firebase.auth.EmailAuthProvider.credential( email, password );
+    /*setTimeout(() => {
+      return this._firebaseAuth.auth.signInWithEmailAndPassword(email, password);
+    }, 1000);*/
+
     return this._firebaseAuth.auth.signInWithEmailAndPassword(email, password);
   }
 
   logout() {
     this._firebaseAuth.auth.signOut()
-      .then((res) => this.router.navigate(['/']));
+      .then((res) => {
+        this.db.database.goOffline();
+        this.router.navigate(['/']);
+      });
   }
 
   isLoggedIn() {

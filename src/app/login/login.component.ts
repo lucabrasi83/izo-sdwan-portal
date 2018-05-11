@@ -3,6 +3,7 @@ import { NavigationEnd, NavigationStart, Router } from '@angular/router';
 import {LoginService} from './login.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { fuseAnimations } from '@fuse/animations';
+import {AngularFireDatabase} from 'angularfire2/database';
 
 @Component({
   selector: 'fuse-login',
@@ -18,7 +19,7 @@ export class LoginComponent implements OnInit {
   showLoadingBar: boolean;
 
 
-  constructor(public authService: LoginService, private router: Router, private formBuilder: FormBuilder) {
+  constructor(public authService: LoginService, private router: Router, private formBuilder: FormBuilder, private db: AngularFireDatabase) {
     this.loginFormErrors = {
       email   : {},
       password: {}
@@ -52,9 +53,10 @@ export class LoginComponent implements OnInit {
 
   signInWithEmail(email, password) {
     this.showLoadingBar = true;
+
     this.authService.signInRegular(email.value, password.value)
       .then((res) => {
-
+        this.db.database.goOnline();
         this.router.navigate(['main']);
 
       })

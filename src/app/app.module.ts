@@ -29,6 +29,7 @@ import { LoginComponent } from './login/login.component';
 import {LoginService} from './login/login.service';
 import {LoginModule} from './login/login.module';
 import {AuthguardService} from './authguard/authguard.service';
+import {InventoryService} from './firebase-services/inventory.service';
 
 
 const appRoutes: Routes = [
@@ -87,7 +88,7 @@ const appRoutes: Routes = [
     bootstrap   : [
         AppComponent
     ],
-    providers: [LoginService, AuthguardService]
+    providers: [LoginService, AuthguardService, InventoryService]
 })
 export class AppModule
 {

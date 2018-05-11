@@ -30,12 +30,13 @@
                   #table
                   [rows]="rows"
                   class="material"
+                  [loadingIndicator]="loadingIndicator"
                   [columnMode]="'force'"
                   [sortType]="'multi'"
                   [headerHeight]="50"
                   [footerHeight]="70"
                   [rowHeight]="'auto'"
-                  [limit]="20"
+                  [limit]="10"
                   [selectionType]="'checkbox'"
 
                   >
@@ -150,10 +151,10 @@
                   </ngx-datatable-column>
                   <ngx-datatable-column name="Activation Status" prop="activation_status" [canAutoResize]="true">
                     <ng-template ngx-datatable-cell-template let-value="value" let-row="row" let-rowIndex="rowIndex">
-                      <mat-slide-toggle *ngIf="value=='ACTIVATED'" color="accent" checked="true" disabled="true">
+                      <mat-slide-toggle *ngIf="value=='Provisioned'" color="accent" checked="true" disabled="true">
                       {{value}}
                       </mat-slide-toggle>
-                      <mat-slide-toggle *ngIf="value=='PENDING'" color="accent" checked="false"
+                      <mat-slide-toggle *ngIf="value=='Unprovisioned'" color="accent" checked="false"
                                         (change)="onToggle(row)">
                        {{value}}
                       </mat-slide-toggle>

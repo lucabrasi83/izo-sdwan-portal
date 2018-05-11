@@ -1,4 +1,4 @@
-import {Component, ElementRef, HostBinding, Inject, OnDestroy, Renderer2, ViewEncapsulation, ViewChild} from '@angular/core';
+import {Component, ElementRef, HostBinding, Inject, OnDestroy, Renderer2, ViewEncapsulation, ViewChild, OnInit} from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { Platform } from '@angular/cdk/platform';
 import { Subscription } from 'rxjs/Subscription';
@@ -6,6 +6,8 @@ import { FuseConfigService } from '@fuse/services/config.service';
 import { MatDialog } from '@angular/material';
 import { FuseStaticRouteComponent } from './fuse-static-route/fuse-static-route.component';
 import {DatatableComponent} from '@swimlane/ngx-datatable';
+import {InventoryService} from '../firebase-services/inventory.service';
+import {Inventory} from '../firebase-model/inventory.model';
 
 @Component({
     selector     : 'fuse-main',
@@ -13,44 +15,30 @@ import {DatatableComponent} from '@swimlane/ngx-datatable';
     styleUrls    : ['./main.component.scss'],
     encapsulation: ViewEncapsulation.None
 })
-export class FuseMainComponent implements OnDestroy
+export class FuseMainComponent implements OnDestroy, OnInit
 {
+
     onConfigChanged: Subscription;
+    firebaseTenantSub: Subscription;
+    firebaseInvSub: Subscription;
     fuseSettings: any;
     dialogRef: any;
     rowSelected = false;
     deviceSelected: any;
-
+    loadingIndicator = true;
 
     @ViewChild(DatatableComponent) table: DatatableComponent;
 
     @HostBinding('attr.fuse-layout-mode') layoutMode;
 
-  rows = [
-    { site_name: 'TCL-UK-LONDON-01', device_name: 'TCL-UK-LONDON-01-G-MPLS-R-1', status: 'ONLINE', device_model: 'CiscoISR4221', sn: '1223234', os_version: '16.7.1', activation_status: 'ACTIVATED' },
-    { site_name: 'TCL-UK-CRESSEX-01', device_name: 'TCL-UK-CRESSEX-01-G-MPLS-R-1', status: 'OFFLINE', device_model: 'CiscoISR4221', sn: '423312', os_version: '16.7.1', activation_status: 'PENDING' },
-    { site_name: 'TCL-SG-SINGAPORE-01', device_name: 'TCL-SG-SINGAPORE-01-IZOIW-R-1', status: 'ONLINE', device_model: 'CiscoISR4221', sn: '32132132', os_version: '16.7.1', activation_status: 'ACTIVATED' },
-    { site_name: 'TCL-HK-HONGKONG-01', device_name: 'TCL-HK-HONGKONG-01-EAS-R-1', status: 'ONLINE', device_model: 'CiscoISR4221', sn: '321313123', os_version: '16.7.1' , activation_status: 'PENDING'},
-    { site_name: 'TCL-BR-SAOPAOLO-01', device_name: 'TCL-BR-SAOPAOLO-01-EAS-R-1', status: 'ONLINE', device_model: 'CiscoISR4221', sn: '321321321312', os_version: '16.7.1', activation_status: 'ACTIVATED' },
-    { site_name: 'TCL-US-NEWYORK-01', device_name: 'TCL-US-NEWYORK-01-IZOIW-R-1', status: 'ONLINE', device_model: 'CiscoISR4221', sn: '23213213', os_version: '16.7.1', activation_status: 'ACTIVATED' },
-    { site_name: 'TCL-US-SANTACLARA-01', device_name: 'TCL-US-SANTACLARA-01-G-MPLS-R-1', status: 'ONLINE', device_model: 'CiscoISR4221', sn: '13232131', os_version: '16.7.1', activation_status: 'ACTIVATED' },
-    { site_name: 'TCL-FR-PARIS-01', device_name: 'TCL-FR-PARIS-01-EAS-R-1', status: 'ONLINE', device_model: 'CiscoISR4221', sn: '23213213213', os_version: '16.7.1', activation_status: 'ACTIVATED' },
-    { site_name: 'TCL-FR-PARIS-01', device_name: 'TCL-FR-PARIS-01-IZOIW-R-2', status: 'ONLINE', device_model: 'CiscoISR4221', sn: '3123213', os_version: '16.7.1', activation_status: 'ACTIVATED' },
-    { site_name: 'TCL-ES-MADRID-01', device_name: 'TCL-ES-MADRID-01-G-MPLS-R-1', status: 'ONLINE', device_model: 'CiscoISR4221', sn: '321321312', os_version: '16.7.1', activation_status: 'ACTIVATED' },
-    { site_name: 'TCL-IN-MUMBAI-01', device_name: 'TCL-IN-MUMBAI-01-G-MPLS-R-1', status: 'ONLINE', device_model: 'CiscoISR4221', sn: '3213213213', os_version: '16.7.1', activation_status: 'ACTIVATED' },
-    { site_name: 'TCL-IN-MUMBAI-01', device_name: 'TCL-IN-MUMBAI-01-G-IZOIW-R-2', status: 'OFFLINE', device_model: 'Cisco 881', sn: '23213213', os_version: '15.1(5)', activation_status: 'ACTIVATED' },
-    { site_name: 'TCL-IN-CHENNAI-01', device_name: 'TCL-IN-CHENNAI-01-G-MPLS-R-1', status: 'OFFLINE' , device_model: 'CiscoISR4221', sn: '21321323', os_version: '16.7.1', activation_status: 'ACTIVATED'},
-    { site_name: 'TCL-IN-KOLKATA-01', device_name: 'TCL-IN-KOLKATA-01-IZOIW-R-1', status: 'ONLINE', device_model: 'CiscoISR4221', sn: '321321321', os_version: '16.7.1', activation_status: 'ACTIVATED' },
-    { site_name: 'TCL-IN-PUNE-01', device_name: 'TCL-IN-PUNE-01-G-MPLS-R-1', status: 'ONLINE', device_model: 'CiscoISR4221', sn: '31232132', os_version: '16.7.1', activation_status: 'PENDING' },
-    { site_name: 'TCL-ES-MADRID-01', device_name: 'TCL-ES-MADRID-01-EAS-R-1', status: 'ONLINE' , device_model: 'Cisco 1941', sn: '31232131', os_version: '15.1(5)', activation_status: 'ACTIVATED'},
-    { site_name: 'TCL-AU-SYDNEY-01', device_name: 'TCL-AU-SYDNEY-01-IZOIW-R-1', status: 'OFFLINE', device_model: 'CiscoISR4221', sn: '312321312', os_version: '16.7.1', activation_status: 'ACTIVATED' },
-    { site_name: 'TCL-DE-FRANKFURT-01', device_name: 'TCL-DE-FRANKFURT-01-G-MPLS-R-1', status: 'ONLINE', device_model: 'CiscoISR4221', sn: '321321312', os_version: '16.7.1', activation_status: 'ACTIVATED' },
-    { site_name: 'TCL-DE-FRANKFURT-01', device_name: 'TCL-DE-FRANKFURT-01-G-MPLS-R-2', status: 'ONLINE', device_model: 'Cisco 2921', sn: '12321312', os_version: '15.1(5)', activation_status: 'ACTIVATED' },
-    { site_name: 'TCL-IT-MILANO-01', device_name: 'TCL-IT-MILANO-01-G-MPLS-R-1', status: 'ONLINE', device_model: 'CiscoISR4221', sn: '32132131', os_version: '16.7.1', activation_status: 'ACTIVATED' },
-    { site_name: 'TCL-AE-DUBAI-01', device_name: 'TCL-AE-DUBAI-01-EAS-R-1', status: 'ONLINE', device_model: 'CiscoISR4221', sn: '321321321', os_version: '16.7.1', activation_status: 'ACTIVATED' },
-  ];
 
-  temp = this.rows;
+  // Instantiate Rows
+  rows: Inventory[];
+
+  // Instantiate Temp for Table filtering
+  temp: Inventory[];
+
+  tenant: any;
 
     constructor(
         private _renderer: Renderer2,
@@ -58,6 +46,7 @@ export class FuseMainComponent implements OnDestroy
         private fuseConfig: FuseConfigService,
         private platform: Platform,
         public dialog: MatDialog,
+        private inventoryService: InventoryService,
         @Inject(DOCUMENT) private document: any
     )
     {
@@ -77,11 +66,12 @@ export class FuseMainComponent implements OnDestroy
             this.document.body.className += ' is-mobile';
         }
 
+
     }
 
  onToggle(row: any) {
    setTimeout(() => {
-   row.activation_status = 'ACTIVATED';
+   row.activation_status = 'Provisioned';
  }, 50);
    console.log(row);
  }
@@ -111,7 +101,7 @@ export class FuseMainComponent implements OnDestroy
     const val = event.target.value.toLowerCase().trim();
 
     // get the columns numbers
-    const colsAmt = 7;
+    const colsAmt = 8;
 
     // get the key names for each column in dataset
     const keys = Object.keys(this.temp[0]);
@@ -132,14 +122,31 @@ export class FuseMainComponent implements OnDestroy
     // Whenever the filter changes, always go back to the first page
     this.table.offset = 0;
   }
-
+  // Event to handle Page limit change in ngx-datatable
   onLimitChange($event) {
     this.table.limit = $event.value;
     this.table.recalculate();
   }
+  // Subscribe to Inventory Observable from Firebase
+  ngOnInit() {
+
+      // First Retrieve Tenant ID from user
+     this.firebaseTenantSub = this.inventoryService.getTenantObject().subscribe(tenantid => {
+      this.tenant = tenantid.payload.val();
+       this.firebaseInvSub = this.inventoryService.getTenantDevices(this.tenant).subscribe(devicesarray =>
+      {
+        this.rows = devicesarray;
+        this.temp = this.rows;
+        this.loadingIndicator = false;
+      });
+    });
+
+  }
     ngOnDestroy()
     {
         this.onConfigChanged.unsubscribe();
+        this.firebaseTenantSub.unsubscribe();
+        this.firebaseInvSub.unsubscribe();
     }
 
     addClass(className: string)
@@ -151,4 +158,5 @@ export class FuseMainComponent implements OnDestroy
     {
         this._renderer.removeClass(this._elementRef.nativeElement, className);
     }
+
 }
