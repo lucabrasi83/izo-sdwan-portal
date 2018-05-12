@@ -30,6 +30,8 @@ import {LoginService} from './login/login.service';
 import {LoginModule} from './login/login.module';
 import {AuthguardService} from './authguard/authguard.service';
 import {InventoryService} from './firebase-services/inventory.service';
+import {GrowlModule} from 'primeng/growl';
+import {MessageService} from 'primeng/components/common/messageservice';
 
 
 const appRoutes: Routes = [
@@ -67,28 +69,27 @@ const appRoutes: Routes = [
         HttpClientModule,
         RouterModule.forRoot(appRoutes),
         TranslateModule.forRoot(),
-
         // Fuse Main and Shared modules
         FuseModule.forRoot(fuseConfig),
         FuseSharedModule,
-      FuseMainModule,
+        FuseMainModule,
         FuseSampleModule,
-      FuseDemoModule,
-      TaskviewerModule,
-      FuseToolbarModule,
-      MatIconModule,
-      MatSidenavModule,
-      AppqosModule,
-      AngularFireModule.initializeApp(environment.firebase, 'izo-portal'),
-      AngularFireDatabaseModule,
-      AngularFireAuthModule,
-      LoginModule
-
+        FuseDemoModule,
+        TaskviewerModule,
+        FuseToolbarModule,
+        MatIconModule,
+        MatSidenavModule,
+        AppqosModule,
+        AngularFireModule.initializeApp(environment.firebase, 'izo-portal'),
+        AngularFireDatabaseModule,
+        AngularFireAuthModule,
+        LoginModule,
+        GrowlModule
     ],
     bootstrap   : [
         AppComponent
     ],
-    providers: [LoginService, AuthguardService, InventoryService]
+    providers: [LoginService, AuthguardService, InventoryService, MessageService]
 })
 export class AppModule
 {

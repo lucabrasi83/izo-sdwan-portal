@@ -6,11 +6,11 @@ import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { FuseSharedModule } from '@fuse/shared.module';
 import {MatFormFieldModule,
         MatInputModule,
+        MatIconModule,
         MatSortModule,
         MatChipsModule,
         MatCheckboxModule,
         MatSelectModule,
-        MatIconModule,
         MatButtonModule,
         MatTooltipModule
         } from '@angular/material';
@@ -23,12 +23,12 @@ import {MatFormFieldModule,
     FuseSharedModule,
     MatFormFieldModule,
     MatInputModule,
+    MatIconModule,
     MatSortModule,
     MatChipsModule,
     MatCheckboxModule,
     MatSelectModule,
     NgxDatatableModule,
-    MatIconModule,
     MatButtonModule,
     MatTooltipModule
 

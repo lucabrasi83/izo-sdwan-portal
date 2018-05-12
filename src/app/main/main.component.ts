@@ -8,6 +8,7 @@ import { FuseStaticRouteComponent } from './fuse-static-route/fuse-static-route.
 import {DatatableComponent} from '@swimlane/ngx-datatable';
 import {InventoryService} from '../firebase-services/inventory.service';
 import {Inventory} from '../firebase-model/inventory.model';
+import {MessageService} from 'primeng/components/common/messageservice';
 
 @Component({
     selector     : 'fuse-main',
@@ -47,6 +48,7 @@ export class FuseMainComponent implements OnDestroy, OnInit
         private platform: Platform,
         public dialog: MatDialog,
         private inventoryService: InventoryService,
+        private msgService: MessageService,
         @Inject(DOCUMENT) private document: any
     )
     {
@@ -126,6 +128,17 @@ export class FuseMainComponent implements OnDestroy, OnInit
   onLimitChange($event) {
     this.table.limit = $event.value;
     this.table.recalculate();
+  }
+  // Feature under development Growl Message
+  createFeaturePendingMsg(): void {
+
+    this.msgService.add({
+      severity: 'warn', summary: 'Info Message', detail:
+                                                `This feature is currently under development. 
+                                                 <br> 
+                                                 Contact <a href="mailto:sebastien.pouplin@tatacommunications.com">sebastien.pouplin@tatacommunications.com</a>
+                                                 for any question.`
+    });
   }
   // Subscribe to Inventory Observable from Firebase
   ngOnInit() {

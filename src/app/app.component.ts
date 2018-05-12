@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewEncapsulation } from '@angular/core';
 import { FuseSplashScreenService } from '@fuse/services/splash-screen.service';
 import { FuseNavigationService } from '@fuse/components/navigation/navigation.service';
 import {Router} from '@angular/router';
@@ -7,7 +7,8 @@ import {Router} from '@angular/router';
 @Component({
     selector   : 'fuse-root',
     templateUrl: './app.component.html',
-    styleUrls  : ['./app.component.scss']
+    styleUrls  : ['./app.component.scss'],
+    encapsulation: ViewEncapsulation.None
 })
 export class AppComponent
 {

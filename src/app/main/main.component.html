@@ -7,12 +7,14 @@
   </button>
   <button mat-fab color="accent" [ngClass]="{'button-follow-2': true}"
           disabled={{!rowSelected}}
-          matTooltip="Site Failover">
+          matTooltip="Site Failover"
+          (click)="createFeaturePendingMsg()">
     <mat-icon class="mat-36" aria-label="Site Failover">swap_vertical_circle</mat-icon>
   </button>
   <button mat-fab color="" [ngClass]="{'button-follow-3': true}"
           disabled={{!rowSelected}}
-          matTooltip="Poll Device">
+          matTooltip="Poll Device"
+          (click)="createFeaturePendingMsg()">
     <mat-icon class="mat-36" aria-label="Poll Device">loop</mat-icon>
   </button>
 
