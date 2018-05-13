@@ -11,6 +11,8 @@
   .mat-tab-label {
     color: white !important;
     font-size: 14px;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
   }
   .mat-ink-bar {
     color: white !important;

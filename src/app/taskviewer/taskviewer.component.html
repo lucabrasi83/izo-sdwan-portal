@@ -142,13 +142,13 @@
       </ngx-datatable-column>
       <ngx-datatable-column name="Start Time" prop="start_time" [canAutoResize]="true" [width]="100">
         <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
-          <div>{{ value | date: 'medium'}}</div>
+          <div>{{ value | date: 'dd-MMM-yyyy HH:mm ZZZZ'}}</div>
         </ng-template>
       </ngx-datatable-column>
       <ngx-datatable-column name="End Time" prop="end_time" [width]="100">
 
         <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
-          <div>{{ value | date: 'medium'}}</div>
+          <div>{{ value | date: 'dd-MMM-yyyy HH:mm ZZZZ'}}</div>
         </ng-template>
 
       </ngx-datatable-column>
