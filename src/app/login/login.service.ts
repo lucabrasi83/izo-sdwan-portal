@@ -5,7 +5,7 @@ import * as firebase from 'firebase/app';
 import { Observable } from 'rxjs/Observable';
 import { AngularFireDatabase } from 'angularfire2/database';
 
-@Injectable()
+@Injectable({providedIn: 'root'})
 export class LoginService {
   private user: Observable<firebase.User>;
   public userDetails: firebase.User = null;

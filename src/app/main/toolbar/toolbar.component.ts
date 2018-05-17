@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import { NavigationEnd, NavigationStart, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 
@@ -12,7 +12,7 @@ import {LoginService} from '../../login/login.service';
     styleUrls  : ['./toolbar.component.scss']
 })
 
-export class FuseToolbarComponent
+export class FuseToolbarComponent implements OnInit
 {
     userStatusOptions: any[];
     languages: any;
@@ -90,8 +90,11 @@ export class FuseToolbarComponent
             this.noNav = settings.layout.navigation === 'none';
         });
 
-        this.userEmail = this.authService.isAuthenticated().email;
 
+
+    }
+    ngOnInit() {
+      this.userEmail = this.authService.isAuthenticated().email;
     }
 
     toggleSidebarOpened(key)

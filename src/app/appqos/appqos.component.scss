@@ -1,12 +1,14 @@
 @import 'src/@fuse/scss/fuse';
 
+
+
 .mat-tab-labels{
   justify-content: center; /* align items in Main Axis */
 }
 
-.mat-tab-group {
+
   .mat-tab-header {
-    background-color: #00b0ff;
+    background-color: #03a9f4;
   }
   .mat-tab-label {
     color: white !important;
@@ -23,5 +25,5 @@
     opacity: 1 !important;
   }
 
-}
+
 

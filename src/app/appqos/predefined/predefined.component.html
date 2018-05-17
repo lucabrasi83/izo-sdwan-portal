@@ -1,0 +1,140 @@
+
+
+<button mat-fab color="accent" [ngClass]="{'appqos-button-follow-1': true}"
+        disabled={{!appAssignButton}}
+        matTooltip="Assign App">
+  <mat-icon class="mat-36" aria-label="Assign App">cloud_done</mat-icon>
+</button>
+<button mat-fab [ngClass]="{'appqos-button-follow-2': true}"
+        disabled={{!appMoveButton}}
+        matTooltip="Move App"
+        >
+  <mat-icon class="mat-36" aria-label="Move App">cloud_upload</mat-icon>
+</button>
+<button mat-fab color="warn" [ngClass]="{'appqos-button-follow-3': true}"
+        disabled={{!appUnassignButton}}
+        matTooltip="Unassign App"
+       >
+  <mat-icon class="mat-36" aria-label="Unassign App">cloud_off</mat-icon>
+</button>
+
+
+<div class="mat-elevation-z8" fxLayoutAlign="start center" style="padding:10px;margin:20px auto;width:50%;display: flex;">
+  <mat-icon>search</mat-icon>
+  <div style="width: 100%;display: flex; flex-direction: column;" fxFlex="auto">
+    <mat-form-field color="accent" style="padding:8px;">
+      <input type="text" matInput (keyup)="updateFilter($event)" placeholder="Filter Pre-Defined Apps Data...">
+    </mat-form-field>
+  </div>
+</div>
+
+<ngx-datatable
+  #table
+  [rows]="rows"
+  class="material"
+  [columnMode]="'force'"
+  [sortType]="'multi'"
+  [headerHeight]="50"
+  [footerHeight]="70"
+  [rowHeight]="'auto'"
+  [limit]="10"
+  [selectionType]="'checkbox'"
+>
+  <ngx-datatable-footer>
+    <ng-template
+      ngx-datatable-footer-template
+      let-rowCount="rowCount"
+      let-pageSize="pageSize"
+      let-selectedCount="selectedCount"
+      let-curPage="curPage"
+      let-offset="offset">
+      <div style="padding: 5px 10px">
+        <div>
+          Total Apps: {{rowCount}}
+        </div>
+      </div>
+      <div style="padding: 5px 10px">
+        <div>
+          Items Per Page:
+        </div>
+      </div>
+      <div style="padding: 5px 10px">
+        <div>
+          <mat-form-field>
+            <mat-select placeholder=""
+                        class="mat-select-content"
+                        style="font-size: 12px"
+                        (selectionChange)="onLimitChange($event)"
+            >
+              <mat-option [value]="5">
+                5
+              </mat-option>
+              <mat-option [value]="10">
+                10
+              </mat-option>
+              <mat-option [value]="25">
+                25
+              </mat-option>
+              <mat-option [value]="100">
+                100
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+      <datatable-pager
+        [pagerLeftArrowIcon]="'datatable-icon-left'"
+        [pagerRightArrowIcon]="'datatable-icon-right'"
+        [pagerPreviousIcon]="'datatable-icon-prev'"
+        [pagerNextIcon]="'datatable-icon-skip'"
+        [page]="curPage"
+        [size]="pageSize"
+        [count]="rowCount"
+        [hidden]="!((rowCount / pageSize) > 1)"
+        (change)="table.onFooterPage($event)">
+      </datatable-pager>
+    </ng-template>
+
+  </ngx-datatable-footer>
+  <ngx-datatable-column
+    [canAutoResize]="true"
+    [sortable]="false" name="" [width]="25">
+
+    <ng-template ngx-datatable-cell-template let-value="value" let-isSelected="isSelected"
+                 let-onCheckboxChangeFn="onCheckboxChangeFn" let-row="row">
+
+      <mat-radio-button value="value" (click)="onSelect(row)"></mat-radio-button>
+
+    </ng-template>
+  </ngx-datatable-column>
+
+  <ngx-datatable-column name="App Signature" prop="appname" [canAutoResize]="true" [width]="100">
+    <ng-template ngx-datatable-cell-template let-value="value">
+      <strong>{{value}}</strong>
+    </ng-template>
+  </ngx-datatable-column>
+
+  <ngx-datatable-column name="Description URL" prop="descriptionurl" [canAutoResize]="true" [width]="500">
+    <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
+     <a href="{{value}}" target="_blank">View {{row.fullname}} Signature Details</a>
+    </ng-template>
+  </ngx-datatable-column>
+
+  <ngx-datatable-column name="SD-WAN Profile Assigned" prop="sdwanprofileassigned"  [canAutoResize]="true" [width]="80">
+
+    <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
+
+      <mat-chip-list *ngIf="value !== 'NONE'">
+        <mat-chip color="accent" [selected]="true">{{value}}</mat-chip>
+      </mat-chip-list>
+
+      <mat-chip-list *ngIf="value == 'NONE'">
+        <mat-chip>NOT ASSIGNED</mat-chip>
+      </mat-chip-list>
+    </ng-template>
+
+  </ngx-datatable-column>
+
+
+</ngx-datatable>
+

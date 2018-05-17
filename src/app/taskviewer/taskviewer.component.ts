@@ -109,8 +109,6 @@ export class TaskviewerComponent  {
 
   selected = [];
   selectedTasks = [];
-  selectedIndex = [];
-
 
   updateFilter(event) {
     const val = event.target.value.toString().toLowerCase().trim();

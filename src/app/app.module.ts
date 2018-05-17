@@ -26,10 +26,9 @@ import { AngularFireModule } from 'angularfire2';
 import { AngularFireDatabaseModule } from 'angularfire2/database';
 import { AngularFireAuthModule } from 'angularfire2/auth';
 import { LoginComponent } from './login/login.component';
-import {LoginService} from './login/login.service';
 import {LoginModule} from './login/login.module';
 import {AuthguardService} from './authguard/authguard.service';
-import {InventoryService} from './firebase-services/inventory.service';
+import { AvatarModule } from 'ng2-avatar';
 import {GrowlModule} from 'primeng/growl';
 import {MessageService} from 'primeng/components/common/messageservice';
 
@@ -84,12 +83,13 @@ const appRoutes: Routes = [
         AngularFireDatabaseModule,
         AngularFireAuthModule,
         LoginModule,
-        GrowlModule
+        GrowlModule,
+        AvatarModule.forRoot()
     ],
     bootstrap   : [
         AppComponent
     ],
-    providers: [LoginService, AuthguardService, InventoryService, MessageService]
+    providers: [MessageService]
 })
 export class AppModule
 {

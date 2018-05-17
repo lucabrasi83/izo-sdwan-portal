@@ -1,16 +1,60 @@
 
-
-    <div id="wrapper">
-      <div class="content-wrapper">
-        <div class="content p-24">
-          <mat-card>
-            <mat-card-content>
+  <!--<div class="content" id="appqos-main"
+       style="flex-direction: column;display: flex;position: relative;overflow: hidden;flex: 0 0 auto;"
+       fxLayout="row" fxLayoutAlign="space-between start"
+       fusePerfectScrollbar>
           <mat-tab-group>
-            <mat-tab label="PRE-DEFINED APPS">Content 1</mat-tab>
-            <mat-tab label="CUSTOM APPS">Content 2</mat-tab>
+
+            <mat-tab label="PRE-DEFINED APPS">
+              <div class="tab-content p-24" id="prefined-main"
+                   style="width: 80%;position: relative;
+                   margin: auto;overflow: hidden;display: flex;flex-direction: column;
+                   flex: 0 0 auto;"
+                   >
+              <fuse-predefined></fuse-predefined>
+                </div>
+
+            </mat-tab>
+
+
+
+
+           <mat-tab label="CUSTOM APPS">
+
+           </mat-tab>
+
           </mat-tab-group>
-            </mat-card-content>
-          </mat-card>
-        </div>
-      </div>
-    </div>
+
+
+</div>
+-->
+
+
+
+
+    <div class="content" style="overflow: auto;display: flex;
+    flex: 0 0 auto;position: relative;flex-direction: column; height: 90%;" fusePerfectScrollbar>
+
+      <mat-tab-group>
+
+        <mat-tab label="PRE-DEFINED APPS">
+
+          <!--<div class="content" fusePerfectScrollbar style="overflow: auto;
+          position: relative;height: 80%;display: flex;flex: 0 0 auto;">-->
+
+          <div class="content p-12" style="width: 90%;margin: auto;">
+
+          <fuse-predefined></fuse-predefined>
+
+          </div>
+
+        </mat-tab>
+
+
+    <mat-tab label="CUSTOM APPS">
+
+    </mat-tab>
+
+    </mat-tab-group>
+  </div>
+

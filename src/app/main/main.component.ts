@@ -89,8 +89,8 @@ export class FuseMainComponent implements OnDestroy, OnInit
 
     this.dialogRef = this.dialog.open(FuseStaticRouteComponent, {
       panelClass: 'static-routes-form-dialog',
-      width: '1500px',
-      height: '700px',
+      width: '1400px',
+      height: '900px',
       data      : {
         action: 'new',
         cpe_name: this.deviceSelected.device_name

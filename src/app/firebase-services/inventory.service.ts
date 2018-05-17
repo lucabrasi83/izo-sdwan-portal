@@ -3,7 +3,7 @@ import {AngularFireDatabase} from 'angularfire2/database';
 import {Observable} from 'rxjs/Observable';
 import {LoginService} from '../login/login.service';
 
-@Injectable()
+@Injectable({providedIn: 'root'})
 export class InventoryService {
 
   private basePath = '/tenant/';

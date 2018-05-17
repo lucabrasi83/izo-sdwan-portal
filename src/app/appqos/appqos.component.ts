@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewEncapsulation} from '@angular/core';
+import {Component, ViewEncapsulation} from '@angular/core';
 
 @Component({
   selector: 'fuse-appqos',
@@ -6,11 +6,12 @@ import {Component, OnInit, ViewEncapsulation} from '@angular/core';
   styleUrls: ['./appqos.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class AppqosComponent implements OnInit {
+export class AppqosComponent  {
 
-  constructor() { }
+  constructor() {
 
-  ngOnInit() {
   }
+
+
 
 }
