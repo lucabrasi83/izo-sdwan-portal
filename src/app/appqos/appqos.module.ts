@@ -13,15 +13,27 @@ import {MatIconModule,
         MatChipsModule,
         MatTooltipModule,
         MatButtonToggleModule,
-        MatExpansionModule
+        MatExpansionModule,
+        MatDialogModule,
+        MatToolbarModule,
+        MatDividerModule
         } from '@angular/material';
 import { FuseToolbarModule } from 'app/main/toolbar/toolbar.module';
-import {RouterModule} from '@angular/router';
+import {RouterModule, Routes} from '@angular/router';
 import { PredefinedComponent } from './predefined/predefined.component';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { FormsModule } from '@angular/forms';
 import { FuseSharedModule } from '../../@fuse/shared.module';
+import { FusePredefDialogComponent } from './predefined/fuse-predef-dialog/fuse-predef-dialog.component';
+import {AuthguardService} from '../authguard/authguard.service';
 
+const routes: Routes = [
+  {
+    path: '',
+    component: AppqosComponent,
+    canActivate: [AuthguardService]
+  }
+];
 
 @NgModule({
   imports: [
@@ -43,10 +55,15 @@ import { FuseSharedModule } from '../../@fuse/shared.module';
     MatTooltipModule,
     MatButtonToggleModule,
     FormsModule,
-    MatExpansionModule
+    MatExpansionModule,
+    MatDialogModule,
+    MatToolbarModule,
+    MatDividerModule,
+    RouterModule.forChild(routes)
 
   ],
-  declarations: [AppqosComponent, PredefinedComponent],
-  exports: [AppqosComponent, PredefinedComponent]
+  declarations: [AppqosComponent, PredefinedComponent, FusePredefDialogComponent],
+  entryComponents: [FusePredefDialogComponent],
+  exports: [AppqosComponent]
 })
 export class AppqosModule { }

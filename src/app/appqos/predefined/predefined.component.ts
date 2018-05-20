@@ -1,11 +1,12 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, OnInit, ViewChild, Output, EventEmitter} from '@angular/core';
 import {DatatableComponent} from '@swimlane/ngx-datatable';
-
+import { fuseAnimations } from '@fuse/animations';
 
 @Component({
   selector: 'fuse-predefined',
   templateUrl: './predefined.component.html',
-  styleUrls: ['./predefined.component.scss']
+  styleUrls: ['./predefined.component.scss'],
+  animations   : fuseAnimations
 
 })
 export class PredefinedComponent implements OnInit {
@@ -16,9 +17,8 @@ export class PredefinedComponent implements OnInit {
 
   @ViewChild(DatatableComponent) table: DatatableComponent;
 
-  appAssignButton: boolean;
-  appMoveButton: boolean;
-  appUnassignButton: boolean;
+  @Output('rowSelect') rowSelect = new EventEmitter<any>();
+
 
   rows = [
     { appname: 'rtp-audio', descriptionurl: 'https://www.cisco.com/c/en/us/td/docs/ios-xml/ios/qos_nbar/prot_lib/config_library/pp3700/nbar-prot-pack3700/qr.html#wp3349895184',
@@ -79,7 +79,7 @@ export class PredefinedComponent implements OnInit {
       sdwanprofileassigned: 'NONE', fullname: 'Microsoft Windows Azure'},
 
     { appname: 'netbios', descriptionurl: 'https://www.cisco.com/c/en/us/td/docs/ios-xml/ios/qos_nbar/prot_lib/config_library/pp3700/nbar-prot-pack3700/n.html#wp1777004490',
-      sdwanprofileassigned: 'NONE', fullname: 'Netbios'},
+      sdwanprofileassigned: 'NONE', fullname: 'Netbios'}
 
     ];
 
@@ -121,25 +121,15 @@ export class PredefinedComponent implements OnInit {
 
   ngOnInit() {
 
-    this.appAssignButton = false;
-    this.appMoveButton = false;
-    this.appUnassignButton = false;
 
   }
   onSelect(row: any) {
-
+    const index = this.rows.findIndex(x => x  === row);
+    console.log('The row index is ' + index);
     console.log('Select Event', row.appname);
+    this.rowSelect.emit(row);
 
-    if (row.sdwanprofileassigned === 'NONE') {
-     this.appAssignButton = true;
-     this.appUnassignButton = false;
-     this.appMoveButton = false;
-    }
-    else {
-      this.appAssignButton = false;
-      this.appUnassignButton = true;
-      this.appMoveButton = true;
-    }
+
 
   }
 

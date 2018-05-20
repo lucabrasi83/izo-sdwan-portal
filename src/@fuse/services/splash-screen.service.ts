@@ -31,7 +31,7 @@ export class FuseSplashScreenService
                             // Unsubscribe from this event so it
                             // won't get triggered again
                             hideOnLoad.unsubscribe();
-                        }, 3000);
+                        }, 2000);
                     }
                 }
             );

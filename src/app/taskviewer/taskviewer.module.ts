@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { RouterModule, Routes } from '@angular/router';
 import {TaskviewerComponent} from './taskviewer.component';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { FuseSharedModule } from '@fuse/shared.module';
@@ -14,12 +14,18 @@ import {MatFormFieldModule,
         MatButtonModule,
         MatTooltipModule
         } from '@angular/material';
+import {AuthguardService} from '../authguard/authguard.service';
 
-
+const routes: Routes = [
+  {
+    path: '',
+    component: TaskviewerComponent,
+    canActivate: [AuthguardService]
+  }
+];
 @NgModule({
   imports: [
     CommonModule,
-    RouterModule,
     FuseSharedModule,
     MatFormFieldModule,
     MatInputModule,
@@ -30,7 +36,8 @@ import {MatFormFieldModule,
     MatSelectModule,
     NgxDatatableModule,
     MatButtonModule,
-    MatTooltipModule
+    MatTooltipModule,
+    RouterModule.forChild(routes)
 
   ],
   declarations: [TaskviewerComponent],

@@ -1,7 +1,8 @@
-import {Component, ViewEncapsulation, ViewChild} from '@angular/core';
+import {Component, ViewEncapsulation, ViewChild, OnInit } from '@angular/core';
 import {DatatableComponent} from '@swimlane/ngx-datatable';
 import {DatePipe} from '@angular/common';
 import {MessageService} from 'primeng/components/common/messageservice';
+
 
 
 @Component({
@@ -11,15 +12,17 @@ import {MessageService} from 'primeng/components/common/messageservice';
   encapsulation: ViewEncapsulation.None
 
 })
-export class TaskviewerComponent  {
+export class TaskviewerComponent  implements  OnInit {
 
-
+ selectedTasks = [];
 
   constructor(private msgService: MessageService) {
 
   }
 
+
   @ViewChild(DatatableComponent) table: DatatableComponent;
+
 
   rows = [
     { taskid: '32ededef3434', taskname: 'Basic AppQoS - Assign App', status: 'COMPLETE', start_time: 1525403596780,
@@ -108,7 +111,17 @@ export class TaskviewerComponent  {
   temp = this.rows;
 
   selected = [];
-  selectedTasks = [];
+
+
+
+  ngOnInit() {
+
+    this.selectedTasks = [];
+
+    console.log(this.selectedTasks);
+
+  }
+
 
   updateFilter(event) {
     const val = event.target.value.toString().toLowerCase().trim();

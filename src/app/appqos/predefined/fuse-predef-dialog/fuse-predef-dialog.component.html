@@ -1,0 +1,27 @@
+<div class="dialog-content-wrapper">
+  <mat-toolbar matDialogTitle class="mat-accent-bg m-0">
+    <mat-toolbar-row fxLayout="row" fxLayoutAlign="space-between center">
+      <span class="title dialog-title">{{data.appname}} - App Steering</span>
+      <button mat-button class="mat-icon-button"
+              (click)="dialogRef.close()"
+              aria-label="Close dialog" [ngClass]="{'fill': 'white'}">
+        <mat-icon>close</mat-icon>
+      </button>
+    </mat-toolbar-row>
+  </mat-toolbar>
+  <div class="mb-24" fxLayout="row" fxLayoutAlign="start start">
+  <div mat-dialog-content class="p-24 m-0" fusePerfectScrollbar>
+    <p style="display: flex;align-items: center;justify-content: center;"><strong>Click on the SD-WAN Profile you want to {{data.action}}:</strong></p>
+    <mat-divider></mat-divider>
+   <div class="button-row py-16">
+     <button mat-raised-button color="accent" class="submit-button mx-16" *ngFor="let prof of data.sdwanprofilelist" value="prof"
+             (click)="dialogRef.close(prof)">
+
+       {{prof}}
+
+     </button>
+
+   </div>
+  </div>
+  </div>
+</div>

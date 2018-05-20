@@ -39,3 +39,8 @@
 
 // Plugins
 @import "partials/plugins/plugins";
+
+// Firefox disable dotted outline
+:focus {outline:none !important;}
+::-moz-focus-inner {border:0 !important;}
+

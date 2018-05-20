@@ -24,9 +24,10 @@ export class FuseMainComponent implements OnDestroy, OnInit
     firebaseInvSub: Subscription;
     fuseSettings: any;
     dialogRef: any;
-    rowSelected = false;
+    rowSelected: boolean;
     deviceSelected: any;
     loadingIndicator = true;
+
 
     @ViewChild(DatatableComponent) table: DatatableComponent;
 
@@ -54,7 +55,7 @@ export class FuseMainComponent implements OnDestroy, OnInit
     {
 
 
-        this.onConfigChanged =
+      this.onConfigChanged =
             this.fuseConfig.onConfigChanged
                 .subscribe(
                     (newSettings) => {
@@ -143,6 +144,7 @@ export class FuseMainComponent implements OnDestroy, OnInit
   // Subscribe to Inventory Observable from Firebase
   ngOnInit() {
 
+
       // First Retrieve Tenant ID from user
      this.firebaseTenantSub = this.inventoryService.getTenantObject().subscribe(tenantid => {
       this.tenant = tenantid.payload.val();
@@ -153,6 +155,8 @@ export class FuseMainComponent implements OnDestroy, OnInit
         this.loadingIndicator = false;
       });
     });
+
+
 
   }
     ngOnDestroy()

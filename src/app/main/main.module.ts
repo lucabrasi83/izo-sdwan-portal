@@ -1,7 +1,8 @@
 import { NgModule } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import {RouterModule, Routes} from '@angular/router';
 import { FuseSharedModule } from '@fuse/shared.module';
 import { FuseNavigationModule, FuseSearchBarModule, FuseShortcutsModule, FuseSidebarModule, FuseThemeOptionsModule } from '@fuse/components';
+
 
 import {
   MatButtonModule,
@@ -20,9 +21,17 @@ import {
 
 import { FuseMainComponent } from './main.component';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
-import { BrowserModule } from '@angular/platform-browser';
 import { FuseStaticRouteComponent } from './fuse-static-route/fuse-static-route.component';
+import {AuthguardService} from '../authguard/authguard.service';
+import {CommonModule} from '@angular/common';
 
+const routes: Routes = [
+  {
+    path: '',
+    component: FuseMainComponent,
+    canActivate: [AuthguardService]
+  }
+];
 
 @NgModule({
     declarations: [
@@ -33,7 +42,7 @@ import { FuseStaticRouteComponent } from './fuse-static-route/fuse-static-route.
     imports     : [
         RouterModule,
       NgxDatatableModule,
-      BrowserModule,
+      CommonModule,
       MatButtonModule,
       MatCheckboxModule,
       MatToolbarModule,
@@ -51,11 +60,8 @@ import { FuseStaticRouteComponent } from './fuse-static-route/fuse-static-route.
         FuseShortcutsModule,
         FuseSidebarModule,
       MatSelectModule,
-      MatTooltipModule
-
-
-
-
+      MatTooltipModule,
+      RouterModule.forChild(routes)
 
 
     ],

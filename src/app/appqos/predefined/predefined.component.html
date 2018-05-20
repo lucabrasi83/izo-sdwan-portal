@@ -1,23 +1,5 @@
 
 
-<button mat-fab color="accent" [ngClass]="{'appqos-button-follow-1': true}"
-        disabled={{!appAssignButton}}
-        matTooltip="Assign App">
-  <mat-icon class="mat-36" aria-label="Assign App">cloud_done</mat-icon>
-</button>
-<button mat-fab [ngClass]="{'appqos-button-follow-2': true}"
-        disabled={{!appMoveButton}}
-        matTooltip="Move App"
-        >
-  <mat-icon class="mat-36" aria-label="Move App">cloud_upload</mat-icon>
-</button>
-<button mat-fab color="warn" [ngClass]="{'appqos-button-follow-3': true}"
-        disabled={{!appUnassignButton}}
-        matTooltip="Unassign App"
-       >
-  <mat-icon class="mat-36" aria-label="Unassign App">cloud_off</mat-icon>
-</button>
-
 
 <div class="mat-elevation-z8" fxLayoutAlign="start center" style="padding:10px;margin:20px auto;width:50%;display: flex;">
   <mat-icon>search</mat-icon>
@@ -39,6 +21,7 @@
   [rowHeight]="'auto'"
   [limit]="10"
   [selectionType]="'checkbox'"
+  [@animateStagger]="{value:'50'}"
 >
   <ngx-datatable-footer>
     <ng-template

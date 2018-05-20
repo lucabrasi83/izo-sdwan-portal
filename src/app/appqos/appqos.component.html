@@ -1,50 +1,49 @@
 
-  <!--<div class="content" id="appqos-main"
-       style="flex-direction: column;display: flex;position: relative;overflow: hidden;flex: 0 0 auto;"
-       fxLayout="row" fxLayoutAlign="space-between start"
-       fusePerfectScrollbar>
-          <mat-tab-group>
-
-            <mat-tab label="PRE-DEFINED APPS">
-              <div class="tab-content p-24" id="prefined-main"
-                   style="width: 80%;position: relative;
-                   margin: auto;overflow: hidden;display: flex;flex-direction: column;
-                   flex: 0 0 auto;"
-                   >
-              <fuse-predefined></fuse-predefined>
-                </div>
-
-            </mat-tab>
-
-
-
-
-           <mat-tab label="CUSTOM APPS">
-
-           </mat-tab>
-
-          </mat-tab-group>
-
-
-</div>
--->
+<button mat-fab color="accent" [ngClass]="{'appqos-button-1': true}"
+        disabled={{!appAssignButton}}
+        matTooltip="Assign App"
+        (click) = "onClickAssignApp()"
+        >
+  <mat-icon class="mat-36" aria-label="Assign App">cloud_done</mat-icon>
+</button>
+<button mat-fab [ngClass]="{'appqos-button-2': true}"
+        disabled={{!appMoveButton}}
+        matTooltip="Move App"
+>
+  <mat-icon class="mat-36" aria-label="Move App">cloud_upload</mat-icon>
+</button>
+<button mat-fab color="warn" [ngClass]="{'appqos-button-3': true}"
+        disabled={{!appUnassignButton}}
+        matTooltip="Unassign App"
+>
+  <mat-icon class="mat-36" aria-label="Unassign App">cloud_off</mat-icon>
+</button>
 
 
 
 
-    <div class="content" style="overflow: auto;display: flex;
-    flex: 0 0 auto;position: relative;flex-direction: column; height: 90%;" fusePerfectScrollbar>
 
+<div class="content p-24" style="display: flex;flex: 0 0 auto;
+    flex-direction: column;height: 90%;width: 90%;margin: auto;overflow: auto;position: relative;" fusePerfectScrollbar>
+
+      <mat-card role="group">
+        <mat-card-content>
+        <!--  <div class="content p-24" fusePerfectScrollbar style="overflow: auto;
+          position: relative;display: flex;height: 90%;">-->
       <mat-tab-group>
 
         <mat-tab label="PRE-DEFINED APPS">
 
-          <!--<div class="content" fusePerfectScrollbar style="overflow: auto;
-          position: relative;height: 80%;display: flex;flex: 0 0 auto;">-->
 
-          <div class="content p-12" style="width: 90%;margin: auto;">
 
-          <fuse-predefined></fuse-predefined>
+
+          <div class="content p-24" style="overflow: auto;display: flex;position: relative;flex: 0 0 auto;
+          flex-direction: column;width: 90%;margin: auto;">
+
+          <fuse-predefined
+            (rowSelect) = onButtonDisplay($event)>
+
+          </fuse-predefined>
 
           </div>
 
@@ -56,5 +55,8 @@
     </mat-tab>
 
     </mat-tab-group>
+          <!--/div>-->
+        </mat-card-content>
+      </mat-card>
   </div>
 

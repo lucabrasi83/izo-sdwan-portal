@@ -1,7 +1,10 @@
-<button mat-fab color="warn" [ngClass]="{'button-follow-1': true}"
-        matTooltip="Delete"
+<button
+        mat-fab color="warn" [ngClass]="{'button-follow-1': true}"
+
         (click)="onDeleteTask()"
-         [disabled]="selectedTasks.length == 0">
+        disabled
+         [disabled]="selectedTasks.length === 0"
+          matTooltip="Delete">
   <mat-icon class="mat-36" aria-label="Delete Task" >delete</mat-icon>
 </button>
 
