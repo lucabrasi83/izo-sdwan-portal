@@ -118,8 +118,6 @@ export class TaskviewerComponent  implements  OnInit {
 
     this.selectedTasks = [];
 
-    console.log(this.selectedTasks);
-
   }
 
 

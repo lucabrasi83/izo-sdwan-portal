@@ -1,6 +1,12 @@
-import {Component, OnInit, ViewChild, Output, EventEmitter} from '@angular/core';
+import {Component, OnInit, ViewChild, Output, EventEmitter, OnDestroy, Input } from '@angular/core';
 import {DatatableComponent} from '@swimlane/ngx-datatable';
 import { fuseAnimations } from '@fuse/animations';
+import {Subscription} from 'rxjs/Subscription';
+import {AppqosPredefinedService} from '../../firebase-services/appqos-predefined.service';
+import {MatCheckbox} from '@angular/material';
+
+
+
 
 @Component({
   selector: 'fuse-predefined',
@@ -9,82 +15,32 @@ import { fuseAnimations } from '@fuse/animations';
   animations   : fuseAnimations
 
 })
-export class PredefinedComponent implements OnInit {
+export class PredefinedComponent implements OnInit, OnDestroy {
 
-  constructor() {
+  firebaseTenantSub: Subscription;
+  firebaseAppqosPredifinedSub: Subscription;
+  tenant: any;
+  rows = [];
+  temp = [];
+  origRowIndex = [];
+  loadingIndicator = true;
+  filterValue: string;
+  index: number;
+
+
+
+  constructor(private appqosPredefined: AppqosPredefinedService)
+  {
+
 
   }
 
   @ViewChild(DatatableComponent) table: DatatableComponent;
-
+  @ViewChild('myCheckBox') private myCheckBox: MatCheckbox;
   @Output('rowSelect') rowSelect = new EventEmitter<any>();
+  @Output('pageChange') pageChange = new EventEmitter<any>();
 
 
-  rows = [
-    { appname: 'rtp-audio', descriptionurl: 'https://www.cisco.com/c/en/us/td/docs/ios-xml/ios/qos_nbar/prot_lib/config_library/pp3700/nbar-prot-pack3700/qr.html#wp3349895184',
-      sdwanprofileassigned: 'DPS-COS1-IN', fullname: 'Real-time Transport Protocol Audio'},
-
-    { appname: 'rtp-video', descriptionurl: 'https://www.cisco.com/c/en/us/td/docs/ios-xml/ios/qos_nbar/prot_lib/config_library/pp3700/nbar-prot-pack3700/qr.html#wp1049373493',
-      sdwanprofileassigned: 'DPS-COS2-IN', fullname: 'Real-time Transport Protocol Video'},
-
-    { appname: 'cifs', descriptionurl: 'https://www.cisco.com/c/en/us/td/docs/ios-xml/ios/qos_nbar/prot_lib/config_library/pp3700/nbar-prot-pack3700/c.html#wp8030949240',
-      sdwanprofileassigned: 'DPS-COS4-IN', fullname: 'Common Internet File System'},
-
-    { appname: 'sap', descriptionurl: 'https://www.cisco.com/c/en/us/td/docs/ios-xml/ios/qos_nbar/prot_lib/config_library/pp3700/nbar-prot-pack3700/s.html#wp3648377384',
-      sdwanprofileassigned: 'NONE', fullname: 'SAP'},
-
-    { appname: 'lwapp', descriptionurl: 'https://www.cisco.com/c/en/us/td/docs/ios-xml/ios/qos_nbar/prot_lib/config_library/pp3700/nbar-prot-pack3700/kl.html#wp1218098110',
-      sdwanprofileassigned: 'DPS-COS3-IN', fullname: 'Lightweight Access Point Protocol'},
-
-    { appname: 'share-point', descriptionurl: 'https://www.cisco.com/c/en/us/td/docs/ios-xml/ios/qos_nbar/prot_lib/config_library/pp3700/nbar-prot-pack3700/s.html#wp2801751522',
-      sdwanprofileassigned: 'NONE', fullname: 'Microsoft SharePoint'},
-
-    { appname: 'teamviewer', descriptionurl: 'https://www.cisco.com/c/en/us/td/docs/ios-xml/ios/qos_nbar/prot_lib/config_library/pp3700/nbar-prot-pack3700/t.html#wp2024931152',
-      sdwanprofileassigned: 'NONE', fullname: ' TeamViewer Remote Access and Desktop Sharing'},
-
-    { appname: 'ftp', descriptionurl: 'https://www.cisco.com/c/en/us/td/docs/ios-xml/ios/qos_nbar/prot_lib/config_library/pp3700/nbar-prot-pack3700/f.html#wp2855779164'
-      , sdwanprofileassigned: 'NONE', fullname: 'File Transfer Protocol'},
-
-    { appname: 'oracle-bi', descriptionurl: 'https://www.cisco.com/c/en/us/td/docs/ios-xml/ios/qos_nbar/prot_lib/config_library/pp3700/nbar-prot-pack3700/o.html#wp1034906410',
-      sdwanprofileassigned: 'NONE', fullname: 'Oracle Business Intelligence'},
-
-    { appname: 'ftp-data', descriptionurl: 'https://www.cisco.com/c/en/us/td/docs/ios-xml/ios/qos_nbar/prot_lib/config_library/pp3700/nbar-prot-pack3700/f.html#wp3023521090'
-      , sdwanprofileassigned: 'NONE', fullname: 'File Transfer [Default Data]'},
-
-    { appname: 'oracle', descriptionurl: 'https://www.cisco.com/c/en/us/td/docs/ios-xml/ios/qos_nbar/prot_lib/config_library/pp3700/nbar-prot-pack3700/o.html#wp8059412320',
-      sdwanprofileassigned: 'NONE', fullname: 'Oracle Database'},
-
-    { appname: 'salesforce', descriptionurl: 'https://www.cisco.com/c/en/us/td/docs/ios-xml/ios/qos_nbar/prot_lib/config_library/pp3700/nbar-prot-pack3700/s.html#wp3482661629',
-      sdwanprofileassigned: 'NONE', fullname: 'Salesforce CRM'},
-
-    { appname: 'amazon-web-services',
-      descriptionurl: 'https://www.cisco.com/c/en/us/td/docs/ios-xml/ios/qos_nbar/prot_lib/config_library/pp3700/nbar-prot-pack3700/0a.html#wp2538534008',
-      sdwanprofileassigned: 'NONE', fullname: 'Amazon Web Services'},
-
-    { appname: 'ms-update', descriptionurl: 'https://www.cisco.com/c/en/us/td/docs/ios-xml/ios/qos_nbar/prot_lib/config_library/pp3700/nbar-prot-pack3700/m.html#wp2299803813',
-      sdwanprofileassigned: 'NONE', fullname: 'Microsoft Windows Update Service'},
-
-    { appname: 'ms-wbt', descriptionurl: 'https://www.cisco.com/c/en/us/td/docs/ios-xml/ios/qos_nbar/prot_lib/config_library/pp3700/nbar-prot-pack3700/m.html#wp1830157905',
-      sdwanprofileassigned: 'NONE', fullname: 'Microsoft Remote Desktop Protocol'},
-
-    { appname: 'ms-office-365', descriptionurl: 'https://www.cisco.com/c/en/us/td/docs/ios-xml/ios/qos_nbar/prot_lib/config_library/pp3700/nbar-prot-pack3700/m.html#wp1687874051',
-      sdwanprofileassigned: 'NONE', fullname: 'Microsoft Office 365'},
-
-    { appname: 'ms-office-web-apps',
-      descriptionurl: 'https://www.cisco.com/c/en/us/td/docs/ios-xml/ios/qos_nbar/prot_lib/config_library/pp3700/nbar-prot-pack3700/m.html#wp3200754594',
-      sdwanprofileassigned: 'NONE', fullname: 'Microsoft Office Web Applications'},
-
-    { appname: 'windows-azure',
-      descriptionurl: 'https://www.cisco.com/c/en/us/td/docs/ios-xml/ios/qos_nbar/prot_lib/config_library/pp3700/nbar-prot-pack3700/wxyz.html?bookSearch=true#wp1862588639',
-      sdwanprofileassigned: 'NONE', fullname: 'Microsoft Windows Azure'},
-
-    { appname: 'netbios', descriptionurl: 'https://www.cisco.com/c/en/us/td/docs/ios-xml/ios/qos_nbar/prot_lib/config_library/pp3700/nbar-prot-pack3700/n.html#wp1777004490',
-      sdwanprofileassigned: 'NONE', fullname: 'Netbios'}
-
-    ];
-
-
-  temp = this.rows;
 
   updateFilter(event) {
     const val = event.target.value.toString().toLowerCase().trim();
@@ -96,7 +52,7 @@ export class PredefinedComponent implements OnInit {
     const keys = Object.keys(this.temp[0]);
 
 
-    const temp = this.temp.filter(function(item){
+     const temp_table = this.temp.filter(function(item){
       for (let i = 0; i < colsAmt; i++){
         // check for a match
         if (item[keys[i]].toString().toLowerCase().indexOf(val) !== -1 || !val){
@@ -107,11 +63,21 @@ export class PredefinedComponent implements OnInit {
     });
 
     // update the rows
-    this.rows = temp;
+    this.rows = temp_table;
+
 
     // Whenever the filter changes, always go back to the first page
     this.table.offset = 0;
+
+    // Set Index to Infinite Value to uncheck selection when filtering
+    this.index = 99999;
+
+    // Output to disable buttons when user filter data
+    this.rowSelect.emit( {'row': {'sdwanprofile': 'UNCHECKED'}});
+    this.appqosPredefined.filteredValue = this.filterValue;
+
   }
+
 
   onLimitChange($event) {
     this.table.limit = $event.value;
@@ -119,18 +85,50 @@ export class PredefinedComponent implements OnInit {
 
   }
 
+
   ngOnInit() {
+
+    // Subscribe to index to reset checkbox when user performs app action
+    this.appqosPredefined.indexObs.subscribe(index => this.index = index);
+
+    // First Retrieve Tenant ID from user
+    this.firebaseTenantSub = this.appqosPredefined.getTenantObject().subscribe(tenantid => {
+      this.tenant = tenantid.payload.val();
+      this.firebaseAppqosPredifinedSub = this.appqosPredefined.getAppqosPredefined(this.tenant).subscribe(predifinedapps =>
+      {
+
+        this.rows = predifinedapps;
+
+        this.temp = this.rows;
+
+        // Create copy of array to keep correct index. Index in this.rows get modified during filtering
+        this.origRowIndex = [...this.rows];
+
+        this.loadingIndicator = false;
+
+      });
+    });
+
 
 
   }
-  onSelect(row: any) {
-    const index = this.rows.findIndex(x => x  === row);
-    console.log('The row index is ' + index);
-    console.log('Select Event', row.appname);
-    this.rowSelect.emit(row);
 
 
+  ngOnDestroy() {
+    this.firebaseTenantSub.unsubscribe();
+    this.firebaseAppqosPredifinedSub.unsubscribe();
+  }
 
+
+  onSelect($event, row) {
+    if ($event.source.checked) {
+      this.index = this.rows.indexOf(row);
+      this.rowSelect.emit({'tenant': this.tenant, 'row': $event.source.value, 'index': this.origRowIndex.indexOf($event.source.value)});
+      return;
+    }
+    else {
+      this.rowSelect.emit( {'row': {'sdwanprofile': 'UNCHECKED'}});
+    }
   }
 
 

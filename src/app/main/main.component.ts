@@ -76,12 +76,11 @@ export class FuseMainComponent implements OnDestroy, OnInit
    setTimeout(() => {
    row.activation_status = 'Provisioned';
  }, 50);
-   console.log(row);
+
  }
 
   onSelect(row: any) {
 
-    console.log('Select Event', row.site_name);
     this.rowSelected = true;
     this.deviceSelected = row;
   }
@@ -174,6 +173,11 @@ export class FuseMainComponent implements OnDestroy, OnInit
     removeClass(className: string)
     {
         this._renderer.removeClass(this._elementRef.nativeElement, className);
+    }
+
+    // Handle Output when user navigates through table pages and disable buttons as radio button not checked
+    onPageChange($event) {
+      this.rowSelected = false;
     }
 
 }

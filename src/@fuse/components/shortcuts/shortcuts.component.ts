@@ -67,10 +67,10 @@ export class FuseShortcutsComponent implements OnInit, OnDestroy
                     'url'  : '/main'
                 },
                 {
-                    'title': 'AppQoS',
+                    'title': 'SD-WAN Policy',
                     'type' : 'nav-item',
                     'icon' : 'filter_drama',
-                    'url'  : '/appqos'
+                    'url'  : '/sdwan-policy'
                 },
 
                 {

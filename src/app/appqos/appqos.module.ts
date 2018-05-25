@@ -1,23 +1,25 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AppqosComponent } from './appqos.component';
-import {MatIconModule,
-        MatSidenavModule,
-        MatTabsModule,
-        MatCardModule,
-        MatSelectModule,
-        MatFormFieldModule,
-        MatInputModule,
-        MatRadioModule,
-        MatButtonModule,
-        MatChipsModule,
-        MatTooltipModule,
-        MatButtonToggleModule,
-        MatExpansionModule,
-        MatDialogModule,
-        MatToolbarModule,
-        MatDividerModule
-        } from '@angular/material';
+import {
+  MatIconModule,
+  MatSidenavModule,
+  MatTabsModule,
+  MatCardModule,
+  MatSelectModule,
+  MatFormFieldModule,
+  MatInputModule,
+  MatRadioModule,
+  MatButtonModule,
+  MatChipsModule,
+  MatTooltipModule,
+  MatButtonToggleModule,
+  MatExpansionModule,
+  MatDialogModule,
+  MatToolbarModule,
+  MatDividerModule,
+  MatCheckboxModule
+} from '@angular/material';
 import { FuseToolbarModule } from 'app/main/toolbar/toolbar.module';
 import {RouterModule, Routes} from '@angular/router';
 import { PredefinedComponent } from './predefined/predefined.component';
@@ -59,6 +61,7 @@ const routes: Routes = [
     MatDialogModule,
     MatToolbarModule,
     MatDividerModule,
+    MatCheckboxModule,
     RouterModule.forChild(routes)
 
   ],

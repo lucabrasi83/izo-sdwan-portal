@@ -69,6 +69,6 @@ export class FuseSplashScreenService
 
         setTimeout(() => {
             this.player.play();
-        }, 0);
+        }, 2000);
     }
 }

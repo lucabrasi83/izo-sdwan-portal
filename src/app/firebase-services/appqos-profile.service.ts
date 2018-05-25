@@ -6,7 +6,7 @@ import {LoginService} from '../login/login.service';
 @Injectable({providedIn: 'root'})
 export class AppqosProfileService {
 
-  private basePath = '/appqos/profiles';
+  private profileBasePath = '/appqos/profiles';
 
 
 
@@ -14,13 +14,14 @@ export class AppqosProfileService {
 
   getAppqosProfiles(tenant): Observable<any[]> {
 
-    return this.db.list(`${this.basePath}/${tenant}`).valueChanges();
+    return this.db.list(`${this.profileBasePath}/${tenant}`).valueChanges();
   }
 
   getTenantObject() {
   return this.db.object(`/users/${this.authService.isAuthenticated().uid}/tenant`).snapshotChanges();
 
   }
+
 
 
 }

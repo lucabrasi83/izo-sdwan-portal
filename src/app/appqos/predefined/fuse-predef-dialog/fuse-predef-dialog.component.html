@@ -13,15 +13,23 @@
   <div mat-dialog-content class="p-24 m-0" fusePerfectScrollbar>
     <p style="display: flex;align-items: center;justify-content: center;"><strong>Click on the SD-WAN Profile you want to {{data.action}}:</strong></p>
     <mat-divider></mat-divider>
-   <div class="button-row py-16">
-     <button mat-raised-button color="accent" class="submit-button mx-16" *ngFor="let prof of data.sdwanprofilelist" value="prof"
-             (click)="dialogRef.close(prof)">
+   <div class="button-row py-16" *ngIf="data.action === 'assign' || data.action === 'move'">
+     <button
+       mat-raised-button color="accent" class="submit-button mx-16" *ngFor="let prof of data.sdwanprofilelist" value="prof"
+       (click)="dialogRef.close(prof)">
 
        {{prof}}
 
      </button>
-
+   </div>
+    <div *ngIf="data.action === 'unassign'" class="button-row py-16">
+       <button
+               mat-raised-button color="warn" class="submit-button mx-16"  value="data.sdwanprofilelist"
+               (click)="dialogRef.close(data.sdwanprofilelist)">
+         {{data.sdwanprofilelist}}
+     </button>
+    </div>
    </div>
   </div>
   </div>
-</div>
+

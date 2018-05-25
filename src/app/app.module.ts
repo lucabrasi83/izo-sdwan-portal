@@ -36,7 +36,7 @@ const appRoutes: Routes = [
         loadChildren: './main/main.module#FuseMainModule'
     },
   {
-    path      : 'appqos',
+    path      : 'sdwan-policy',
     loadChildren: './appqos/appqos.module#AppqosModule'
   },
   {

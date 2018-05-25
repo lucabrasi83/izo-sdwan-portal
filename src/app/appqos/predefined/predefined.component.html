@@ -5,7 +5,9 @@
   <mat-icon>search</mat-icon>
   <div style="width: 100%;display: flex; flex-direction: column;" fxFlex="auto">
     <mat-form-field color="accent" style="padding:8px;">
-      <input type="text" matInput (keyup)="updateFilter($event)" placeholder="Filter Pre-Defined Apps Data...">
+      <input type="text" matInput (keyup)="updateFilter($event)"
+             placeholder="Filter Pre-Defined Apps Data..."
+              [(ngModel)]="filterValue">
     </mat-form-field>
   </div>
 </div>
@@ -14,6 +16,7 @@
   #table
   [rows]="rows"
   class="material"
+  [loadingIndicator]="loadingIndicator"
   [columnMode]="'force'"
   [sortType]="'multi'"
   [headerHeight]="50"
@@ -22,6 +25,9 @@
   [limit]="10"
   [selectionType]="'checkbox'"
   [@animateStagger]="{value:'50'}"
+  [trackByProp]="'sdwanprofile'"
+
+
 >
   <ngx-datatable-footer>
     <ng-template
@@ -74,46 +80,75 @@
         [size]="pageSize"
         [count]="rowCount"
         [hidden]="!((rowCount / pageSize) > 1)"
-        (change)="table.onFooterPage($event)">
+        (change)="table.onFooterPage($event)"
+        >
       </datatable-pager>
     </ng-template>
 
   </ngx-datatable-footer>
-  <ngx-datatable-column
-    [canAutoResize]="true"
-    [sortable]="false" name="" [width]="25">
+  <!--<ngx-datatable-column
+    [canAutoResize]="false"
+    [sortable]="false" name="" [width]="70">
 
     <ng-template ngx-datatable-cell-template let-value="value" let-isSelected="isSelected"
                  let-onCheckboxChangeFn="onCheckboxChangeFn" let-row="row">
 
-      <mat-radio-button value="value" (click)="onSelect(row)"></mat-radio-button>
+
+      <mat-radio-button  [value]="row"
+                        (change)="onSelect($event)"
+                        [name]="radio"
+                       >
+
+      </mat-radio-button>
 
     </ng-template>
-  </ngx-datatable-column>
+  </ngx-datatable-column>-->
+    <ngx-datatable-column
+      [canAutoResize]="false"
+      [sortable]="false" name="" [width]="70">
 
-  <ngx-datatable-column name="App Signature" prop="appname" [canAutoResize]="true" [width]="100">
+    <ng-template ngx-datatable-cell-template let-value="value" let-isSelected="isSelected"
+                 let-onCheckboxChangeFn="onCheckboxChangeFn" let-row="row" let-rowIndex="rowIndex">
+
+
+      <mat-checkbox [checked]="index === rowIndex"
+                    (change)="onSelect($event, row)"
+                    [value]="row" #myCheckBox
+       >
+      </mat-checkbox>
+
+    </ng-template>
+    </ngx-datatable-column>
+
+
+  <ngx-datatable-column name="App Signature" prop="appname" [canAutoResize]="true" [width]="350">
     <ng-template ngx-datatable-cell-template let-value="value">
       <strong>{{value}}</strong>
     </ng-template>
   </ngx-datatable-column>
 
-  <ngx-datatable-column name="Description URL" prop="descriptionurl" [canAutoResize]="true" [width]="500">
+  <ngx-datatable-column name="Description URL" prop="descriptionurl" [canAutoResize]="true" [width]="800">
     <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
      <a href="{{value}}" target="_blank">View {{row.fullname}} Signature Details</a>
     </ng-template>
   </ngx-datatable-column>
 
-  <ngx-datatable-column name="SD-WAN Profile Assigned" prop="sdwanprofileassigned"  [canAutoResize]="true" [width]="80">
+  <ngx-datatable-column name="SD-WAN Profile" prop="sdwanprofile"  [canAutoResize]="true" [width]="400">
 
     <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
 
-      <mat-chip-list *ngIf="value !== 'NONE'">
+      <mat-chip-list *ngIf="value == 'PENDING'">
+        <mat-chip [selected]="true" color="warn" [ngStyle]="{ backgroundColor: '#ffc107' }">PENDING...</mat-chip>
+      </mat-chip-list>
+
+      <mat-chip-list *ngIf="value !== 'NONE' && value !== 'PENDING'">
         <mat-chip color="accent" [selected]="true">{{value}}</mat-chip>
       </mat-chip-list>
 
       <mat-chip-list *ngIf="value == 'NONE'">
         <mat-chip>NOT ASSIGNED</mat-chip>
       </mat-chip-list>
+
     </ng-template>
 
   </ngx-datatable-column>

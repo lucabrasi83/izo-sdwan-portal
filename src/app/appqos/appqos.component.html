@@ -1,20 +1,25 @@
 
 <button mat-fab color="accent" [ngClass]="{'appqos-button-1': true}"
-        disabled={{!appAssignButton}}
+        disabled
+        [disabled]="!appAssignButton"
         matTooltip="Assign App"
         (click) = "onClickAssignApp()"
         >
   <mat-icon class="mat-36" aria-label="Assign App">cloud_done</mat-icon>
 </button>
 <button mat-fab [ngClass]="{'appqos-button-2': true}"
-        disabled={{!appMoveButton}}
+        disabled
+        [disabled]="!appMoveButton"
         matTooltip="Move App"
+        (click)="onClickMoveApp()"
 >
   <mat-icon class="mat-36" aria-label="Move App">cloud_upload</mat-icon>
 </button>
 <button mat-fab color="warn" [ngClass]="{'appqos-button-3': true}"
-        disabled={{!appUnassignButton}}
+        disabled
+        [disabled]="!appUnassignButton"
         matTooltip="Unassign App"
+        (click)="onClickUnassignApp()"
 >
   <mat-icon class="mat-36" aria-label="Unassign App">cloud_off</mat-icon>
 </button>
@@ -41,7 +46,7 @@
           flex-direction: column;width: 90%;margin: auto;">
 
           <fuse-predefined
-            (rowSelect) = onButtonDisplay($event)>
+            (rowSelect) = "onButtonDisplay($event)">
 
           </fuse-predefined>
 
@@ -51,7 +56,10 @@
 
 
     <mat-tab label="CUSTOM APPS">
+     <div class="content p-24" style="overflow: auto;display: flex;position: relative;flex: 0 0 auto;
+          flex-direction: column;width: 90%;margin: auto;">
 
+      </div>
     </mat-tab>
 
     </mat-tab-group>
