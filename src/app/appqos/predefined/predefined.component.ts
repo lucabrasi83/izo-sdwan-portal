@@ -1,9 +1,9 @@
-import {Component, OnInit, ViewChild, Output, EventEmitter, OnDestroy, Input } from '@angular/core';
+import {Component, OnInit, ViewChild, Output, EventEmitter, OnDestroy } from '@angular/core';
 import {DatatableComponent} from '@swimlane/ngx-datatable';
 import { fuseAnimations } from '@fuse/animations';
 import {Subscription} from 'rxjs/Subscription';
 import {AppqosPredefinedService} from '../../firebase-services/appqos-predefined.service';
-import {MatCheckbox} from '@angular/material';
+
 
 
 
@@ -19,12 +19,14 @@ export class PredefinedComponent implements OnInit, OnDestroy {
 
   firebaseTenantSub: Subscription;
   firebaseAppqosPredifinedSub: Subscription;
+  indexCheckboxSub: Subscription;
   tenant: any;
   rows = [];
   temp = [];
   origRowIndex = [];
   loadingIndicator = true;
   filterValue: string;
+
   index: number;
 
 
@@ -32,17 +34,16 @@ export class PredefinedComponent implements OnInit, OnDestroy {
   constructor(private appqosPredefined: AppqosPredefinedService)
   {
 
-
   }
 
   @ViewChild(DatatableComponent) table: DatatableComponent;
-  @ViewChild('myCheckBox') private myCheckBox: MatCheckbox;
   @Output('rowSelect') rowSelect = new EventEmitter<any>();
   @Output('pageChange') pageChange = new EventEmitter<any>();
 
 
 
   updateFilter(event) {
+
     const val = event.target.value.toString().toLowerCase().trim();
 
     // get the columns numbers
@@ -52,7 +53,7 @@ export class PredefinedComponent implements OnInit, OnDestroy {
     const keys = Object.keys(this.temp[0]);
 
 
-     const temp_table = this.temp.filter(function(item){
+     const temp_table = this.temp.filter(function(item) {
       for (let i = 0; i < colsAmt; i++){
         // check for a match
         if (item[keys[i]].toString().toLowerCase().indexOf(val) !== -1 || !val){
@@ -74,7 +75,7 @@ export class PredefinedComponent implements OnInit, OnDestroy {
 
     // Output to disable buttons when user filter data
     this.rowSelect.emit( {'row': {'sdwanprofile': 'UNCHECKED'}});
-    this.appqosPredefined.filteredValue = this.filterValue;
+
 
   }
 
@@ -89,7 +90,7 @@ export class PredefinedComponent implements OnInit, OnDestroy {
   ngOnInit() {
 
     // Subscribe to index to reset checkbox when user performs app action
-    this.appqosPredefined.indexObs.subscribe(index => this.index = index);
+    this.indexCheckboxSub = this.appqosPredefined.indexObs.subscribe(index => this.index = index);
 
     // First Retrieve Tenant ID from user
     this.firebaseTenantSub = this.appqosPredefined.getTenantObject().subscribe(tenantid => {
@@ -97,9 +98,9 @@ export class PredefinedComponent implements OnInit, OnDestroy {
       this.firebaseAppqosPredifinedSub = this.appqosPredefined.getAppqosPredefined(this.tenant).subscribe(predifinedapps =>
       {
 
-        this.rows = predifinedapps;
+        this.temp = [...predifinedapps];
 
-        this.temp = this.rows;
+        this.rows = predifinedapps;
 
         // Create copy of array to keep correct index. Index in this.rows get modified during filtering
         this.origRowIndex = [...this.rows];
@@ -117,6 +118,7 @@ export class PredefinedComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.firebaseTenantSub.unsubscribe();
     this.firebaseAppqosPredifinedSub.unsubscribe();
+    this.indexCheckboxSub.unsubscribe();
   }
 
 
@@ -130,6 +132,5 @@ export class PredefinedComponent implements OnInit, OnDestroy {
       this.rowSelect.emit( {'row': {'sdwanprofile': 'UNCHECKED'}});
     }
   }
-
 
 }

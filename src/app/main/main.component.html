@@ -3,14 +3,14 @@
   <button
           disabled
           mat-fab color="warn" [ngClass]="{'button-follow-1': true}"
-          (click)="staticRouteForm()" [disabled]="!rowSelected"
+          (click)="staticRouteForm()" [disabled]="!deviceSelected"
           matTooltip="Manage Static Routes">
     <mat-icon class="mat-36" aria-label="Static Routes">router</mat-icon>
   </button>
   <button
           disabled
           mat-fab color="accent" [ngClass]="{'button-follow-2': true}"
-          [disabled]="!rowSelected"
+          [disabled]="!deviceSelected"
           matTooltip="Site Failover"
           (click)="createFeaturePendingMsg()">
     <mat-icon class="mat-36" aria-label="Site Failover">swap_vertical_circle</mat-icon>
@@ -18,7 +18,7 @@
   <button
           disabled
           mat-fab color="" [ngClass]="{'button-follow-3': true}"
-          [disabled]="!rowSelected"
+          [disabled]="!deviceSelected"
           matTooltip="Poll Device"
           (click)="createFeaturePendingMsg()">
     <mat-icon class="mat-36" aria-label="Poll Device">loop</mat-icon>
@@ -46,7 +46,7 @@
                   [rowHeight]="'auto'"
                   [limit]="10"
                   [selectionType]="'checkbox'"
-                  (page)="onPageChange($event)"
+
 
                   >
                   <ngx-datatable-footer>
@@ -69,7 +69,7 @@
                       </div>
                       <div style="padding: 5px 10px">
                         <div>
-                          <mat-form-field>
+                          <mat-form-field color="accent">
                             <mat-select placeholder=""
                                         class="mat-select-content"
                                         style="font-size: 12px"
@@ -108,19 +108,16 @@
                   <ngx-datatable-column
                                         [canAutoResize]="true"
                                         [sortable]="false" name="" [width]="35">
-                   <!-- <ng-template ngx-datatable-header-template let-value="value" let-allRowsSelected="allRowsSelected"
-                                 let-selectFn="selectFn">
-                      <mat-checkbox [checked]="allRowsSelected" (change)="selectFn(!allRowsSelected)"></mat-checkbox>
-                    </ng-template>-->
+
 
                     <ng-template ngx-datatable-cell-template let-value="value" let-isSelected="isSelected"
-                                 let-onCheckboxChangeFn="onCheckboxChangeFn" let-row="row">
-                     <!-- <mat-checkbox [checked]="isSelected"
-                                    (change)="onCheckboxChangeFn($event)"
+                                 let-onCheckboxChangeFn="onCheckboxChangeFn" let-row="row" let-rowIndex="rowIndex">
 
-                      ></mat-checkbox>-->
+                      <mat-checkbox [checked]="index === rowIndex"
+                                    (change)="onSelect($event, row)"
+                                    [value]="row" #checkbox>
+                      </mat-checkbox>
 
-                      <mat-radio-button value="value" (click)="onSelect(row)"></mat-radio-button>
 
                     </ng-template>
                   </ngx-datatable-column>
@@ -133,7 +130,7 @@
 
                   </ngx-datatable-column>
 
-                  <ngx-datatable-column name="Status" prop="status" [canAutoResize]="true" [width]="90">
+                  <ngx-datatable-column name="&nbsp;&nbsp;Status" prop="status" [canAutoResize]="true" [width]="90">
 
                     <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
 

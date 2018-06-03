@@ -9,7 +9,6 @@ import {
   MatSelectModule,
   MatFormFieldModule,
   MatInputModule,
-  MatRadioModule,
   MatButtonModule,
   MatChipsModule,
   MatTooltipModule,
@@ -18,8 +17,11 @@ import {
   MatDialogModule,
   MatToolbarModule,
   MatDividerModule,
-  MatCheckboxModule
+  MatCheckboxModule,
+  MatStepperModule
+
 } from '@angular/material';
+
 import { FuseToolbarModule } from 'app/main/toolbar/toolbar.module';
 import {RouterModule, Routes} from '@angular/router';
 import { PredefinedComponent } from './predefined/predefined.component';
@@ -28,6 +30,8 @@ import { FormsModule } from '@angular/forms';
 import { FuseSharedModule } from '../../@fuse/shared.module';
 import { FusePredefDialogComponent } from './predefined/fuse-predef-dialog/fuse-predef-dialog.component';
 import {AuthguardService} from '../authguard/authguard.service';
+import { LoadingModule, ANIMATION_TYPES } from 'ngx-loading';
+import { CustomComponent } from './custom/custom.component';
 
 const routes: Routes = [
   {
@@ -51,22 +55,30 @@ const routes: Routes = [
     MatFormFieldModule,
     MatInputModule,
     MatSelectModule,
-    MatRadioModule,
     MatButtonModule,
     MatChipsModule,
     MatTooltipModule,
     MatButtonToggleModule,
+    MatStepperModule,
     FormsModule,
     MatExpansionModule,
     MatDialogModule,
     MatToolbarModule,
     MatDividerModule,
     MatCheckboxModule,
+    LoadingModule.forRoot({
+      animationType: ANIMATION_TYPES.circleSwish,
+      backdropBackgroundColour: 'rgba(255,255,255,0.8)',
+      backdropBorderRadius: '4px',
+      primaryColour: '#03a9f4',
+      secondaryColour: '#03a9f4',
+      tertiaryColour: '#03a9f4'
+    }),
     RouterModule.forChild(routes)
 
   ],
-  declarations: [AppqosComponent, PredefinedComponent, FusePredefDialogComponent],
-  entryComponents: [FusePredefDialogComponent],
+  declarations: [AppqosComponent, PredefinedComponent, FusePredefDialogComponent, CustomComponent],
+  entryComponents: [FusePredefDialogComponent, CustomComponent],
   exports: [AppqosComponent]
 })
 export class AppqosModule { }

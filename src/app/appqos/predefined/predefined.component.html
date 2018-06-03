@@ -1,17 +1,17 @@
 
 
 
-<div class="mat-elevation-z8" fxLayoutAlign="start center" style="padding:10px;margin:20px auto;width:50%;display: flex;">
+<div class="mat-elevation-z8" fxLayoutAlign="start center" flex fxLayout="row" style="padding:8px;margin:15px auto;width:50%;">
   <mat-icon>search</mat-icon>
-  <div style="width: 100%;display: flex; flex-direction: column;" fxFlex="auto">
+  <div style="width: 100%;display: flex; flex-direction: column;">
     <mat-form-field color="accent" style="padding:8px;">
       <input type="text" matInput (keyup)="updateFilter($event)"
-             placeholder="Filter Pre-Defined Apps Data..."
+             placeholder="Filter Apps Data..."
               [(ngModel)]="filterValue">
     </mat-form-field>
   </div>
 </div>
-
+<div class="content p-24 mx-112">
 <ngx-datatable
   #table
   [rows]="rows"
@@ -49,7 +49,7 @@
       </div>
       <div style="padding: 5px 10px">
         <div>
-          <mat-form-field>
+          <mat-form-field color="accent">
             <mat-select placeholder=""
                         class="mat-select-content"
                         style="font-size: 12px"
@@ -86,23 +86,9 @@
     </ng-template>
 
   </ngx-datatable-footer>
-  <!--<ngx-datatable-column
-    [canAutoResize]="false"
-    [sortable]="false" name="" [width]="70">
-
-    <ng-template ngx-datatable-cell-template let-value="value" let-isSelected="isSelected"
-                 let-onCheckboxChangeFn="onCheckboxChangeFn" let-row="row">
 
 
-      <mat-radio-button  [value]="row"
-                        (change)="onSelect($event)"
-                        [name]="radio"
-                       >
 
-      </mat-radio-button>
-
-    </ng-template>
-  </ngx-datatable-column>-->
     <ngx-datatable-column
       [canAutoResize]="false"
       [sortable]="false" name="" [width]="70">
@@ -113,8 +99,7 @@
 
       <mat-checkbox [checked]="index === rowIndex"
                     (change)="onSelect($event, row)"
-                    [value]="row" #myCheckBox
-       >
+                    [value]="row">
       </mat-checkbox>
 
     </ng-template>
@@ -127,13 +112,21 @@
     </ng-template>
   </ngx-datatable-column>
 
-  <ngx-datatable-column name="Description URL" prop="descriptionurl" [canAutoResize]="true" [width]="800">
+  <ngx-datatable-column name="&nbsp;&nbsp;App Type" prop="type" [canAutoResize]="true" [width]="350">
+    <ng-template ngx-datatable-cell-template let-value="value">
+      <mat-chip-list *ngIf="value == 'PREDEFINED'" >
+        <mat-chip [selected]="true" color="warn" [ngStyle]="{ backgroundColor: '#304FFE' }">PREDEFINED</mat-chip>
+      </mat-chip-list>
+    </ng-template>
+  </ngx-datatable-column>
+
+  <ngx-datatable-column name="App Details" prop="appdetails" [canAutoResize]="true" [width]="800">
     <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
      <a href="{{value}}" target="_blank">View {{row.fullname}} Signature Details</a>
     </ng-template>
   </ngx-datatable-column>
 
-  <ngx-datatable-column name="SD-WAN Profile" prop="sdwanprofile"  [canAutoResize]="true" [width]="400">
+  <ngx-datatable-column name="&nbsp;SD-WAN Profile" prop="sdwanprofile"  [canAutoResize]="true" [width]="400">
 
     <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
 
@@ -156,3 +149,4 @@
 
 </ngx-datatable>
 
+</div>

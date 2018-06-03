@@ -1,3 +1,14 @@
+<!--<mat-sidenav-container class="example-container">
+
+
+  <mat-sidenav class="content mt-128" #sidenav mode="over" position="end" style="width: 300px;height: 500px;">
+
+    <p>Heloooooooooooooooooooooooo</p>
+  </mat-sidenav>
+
+  <button mat-raised-button (click)="sidenav.toggle()">Toggle</button>-->
+
+<ngx-loading [show]="loadingSpinner" [config]="{ backdropBorderRadius: '14px' }"></ngx-loading>
 
 <button mat-fab color="accent" [ngClass]="{'appqos-button-1': true}"
         disabled
@@ -24,47 +35,60 @@
   <mat-icon class="mat-36" aria-label="Unassign App">cloud_off</mat-icon>
 </button>
 
+<button mat-fab color="warn" [ngClass]="{'addapp-button': true}"
 
-
-
+        matTooltip="Create Custom App"
+        (click)="onCreateCustomApp()"
+        >
+  <mat-icon class="mat-36" aria-label="Create CUstom App">add</mat-icon>
+</button>
 
 <div class="content p-24" style="display: flex;flex: 0 0 auto;
-    flex-direction: column;height: 90%;width: 90%;margin: auto;overflow: auto;position: relative;" fusePerfectScrollbar>
+    flex-direction: column;height: 90%;width: 100%;margin: auto;overflow: auto;position: relative;" fusePerfectScrollbar>
 
-      <mat-card role="group">
-        <mat-card-content>
+      <!--<mat-card role="group">-->
+        <!--<mat-card-content>-->
         <!--  <div class="content p-24" fusePerfectScrollbar style="overflow: auto;
           position: relative;display: flex;height: 90%;">-->
-      <mat-tab-group>
-
-        <mat-tab label="PRE-DEFINED APPS">
 
 
 
 
-          <div class="content p-24" style="overflow: auto;display: flex;position: relative;flex: 0 0 auto;
-          flex-direction: column;width: 90%;margin: auto;">
+          <!--<mat-tab-group>-->
+
+        <!--<mat-tab label="PRE-DEFINED APPS">-->
+
+
+
+          <!--<div class="content p-24" style="overflow: auto;display: flex;position: relative;flex: 0 0 auto;-->
+          <!--flex-direction: column;width: 90%;margin: auto;">-->
+          <!--<div class="content" style="width: 90%;">-->
 
           <fuse-predefined
             (rowSelect) = "onButtonDisplay($event)">
 
           </fuse-predefined>
 
-          </div>
+          <!--</div>-->
+          <!--</div>-->
 
-        </mat-tab>
+        <!--</mat-tab>-->
 
 
-    <mat-tab label="CUSTOM APPS">
-     <div class="content p-24" style="overflow: auto;display: flex;position: relative;flex: 0 0 auto;
-          flex-direction: column;width: 90%;margin: auto;">
+    <!--<mat-tab label="CUSTOM APPS">-->
+     <!--<div class="content p-24" style="overflow: auto;display: flex;position: relative;flex: 0 0 auto;-->
+          <!--flex-direction: column;width: 90%;margin: auto;">-->
 
-      </div>
-    </mat-tab>
 
-    </mat-tab-group>
-          <!--/div>-->
-        </mat-card-content>
-      </mat-card>
+
+      <!--</div>-->
+    <!--</mat-tab>-->
+
+    <!--</mat-tab-group>-->
+          <!--&lt;!&ndash;/div>&ndash;&gt;-->
+        <!--</mat-card-content>-->
+      <!--</mat-card>-->
+
   </div>
 
+<!--</mat-sidenav-container>-->

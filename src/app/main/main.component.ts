@@ -27,6 +27,7 @@ export class FuseMainComponent implements OnDestroy, OnInit
     rowSelected: boolean;
     deviceSelected: any;
     loadingIndicator = true;
+    index: number;
 
 
     @ViewChild(DatatableComponent) table: DatatableComponent;
@@ -79,10 +80,16 @@ export class FuseMainComponent implements OnDestroy, OnInit
 
  }
 
-  onSelect(row: any) {
+  onSelect($event, row: any) {
+    if ($event.source.checked) {
+      this.index = this.rows.indexOf(row);
+      this.deviceSelected = row;
+    }
+    else {
+      this.deviceSelected = undefined;
+    }
 
-    this.rowSelected = true;
-    this.deviceSelected = row;
+
   }
 
   staticRouteForm() {
@@ -121,6 +128,10 @@ export class FuseMainComponent implements OnDestroy, OnInit
 
     // update the rows
     this.rows = temp;
+
+    // Set Index to Infinite Value to uncheck selection when filtering
+    this.index = 99999;
+
     // Whenever the filter changes, always go back to the first page
     this.table.offset = 0;
   }
@@ -175,9 +186,6 @@ export class FuseMainComponent implements OnDestroy, OnInit
         this._renderer.removeClass(this._elementRef.nativeElement, className);
     }
 
-    // Handle Output when user navigates through table pages and disable buttons as radio button not checked
-    onPageChange($event) {
-      this.rowSelected = false;
-    }
+
 
 }

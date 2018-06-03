@@ -58,3 +58,20 @@
   z-index: 99;
 
 }
+.addapp-button:enabled {
+  position: fixed !important;
+  left: 13% !important;
+  bottom: 2% !important;
+  z-index: 99;
+  background-color: #4caf50;
+
+}
+
+.example-container {
+  position: relative;
+  overflow: hidden;
+  height: 100%;
+  display: flex;
+  flex: 1 1 auto;
+}
+

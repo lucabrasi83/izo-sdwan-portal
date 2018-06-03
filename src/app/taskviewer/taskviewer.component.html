@@ -57,7 +57,7 @@
           </div>
           <div style="padding: 5px 10px">
             <div>
-              <mat-form-field>
+              <mat-form-field color="accent">
                 <mat-select placeholder=""
                             class="mat-select-content"
                             style="font-size: 12px"
@@ -120,25 +120,25 @@
 
       </ngx-datatable-column>
 
-      <ngx-datatable-column name="Status" prop="status" [canAutoResize]="true" [width]="40">
+      <ngx-datatable-column name="&nbsp;&nbsp;Status" prop="status" [canAutoResize]="true" [width]="40">
 
         <ng-template ngx-datatable-cell-template let-value="value" let-row="row">
 
-          <mat-chip-list *ngIf="value=='COMPLETE'">
+          <mat-chip-list *ngIf="value ==='COMPLETE'">
             <mat-chip selected="true" [ngStyle]="{ backgroundColor: '#00c853' }" color="warn">
               {{value}}
             </mat-chip>
           </mat-chip-list>
 
-          <mat-chip-list *ngIf="value=='ERROR'">
+          <mat-chip-list *ngIf="value ==='ERROR'">
             <mat-chip color="warn" selected="true">
               {{value}}
             </mat-chip>
           </mat-chip-list>
 
-          <mat-chip-list *ngIf="value=='IN_PROGRESS'">
+          <mat-chip-list *ngIf="value ==='IN_PROGRESS'">
             <mat-chip  selected="true" [ngStyle]="{ backgroundColor: '#ffc107' }" color="warn">
-              {{value}}
+              PROCESSING
             </mat-chip>
           </mat-chip-list>
 

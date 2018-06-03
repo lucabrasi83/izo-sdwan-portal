@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {EventEmitter, Injectable} from '@angular/core';
 import {AngularFireDatabase} from 'angularfire2/database';
 import {Observable} from 'rxjs/Observable';
 import {LoginService} from '../login/login.service';
@@ -10,10 +10,11 @@ export class AppqosPredefinedService {
 
   private predifinedBasePath = 'appqos/predefined';
 
-  public filteredValue: string;
+  loadingSpinnerSvc = new EventEmitter<boolean>();
 
   // Subject subscribed by components to reset checkbox upon user action
   private indexSource = new Subject<number>();
+
   indexObs = this.indexSource.asObservable();
 
 
@@ -61,9 +62,17 @@ export class AppqosPredefinedService {
 
   assignAppqosPrefinedProfile(tenant, index, profile, appname) {
 
+    // Set Loading Spinner to True to show on template
+    this.loadingSpinnerSvc.emit(true);
+
     this.db.object(`${this.predifinedBasePath}/${tenant}/${index}`).update(
       {'sdwanprofile': profile}
     ).then(() => {
+
+      setTimeout(() => {
+        this.loadingSpinnerSvc.emit(false);
+      }, 2000);
+
         this.msgService.add({
           severity: 'success', summary: 'Successful Operation', detail:
             `${appname} successfully assigned to ${profile}`
@@ -74,6 +83,12 @@ export class AppqosPredefinedService {
       }
     )
       .catch(error => {
+
+        setTimeout(() => {
+          this.loadingSpinnerSvc.emit(false);
+        }, 1000);
+
+
         this.msgService.add({
           severity: 'error', summary: 'Error', detail:
             `Oops. Issue while proceeding with operation.

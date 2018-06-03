@@ -6,6 +6,7 @@ import { AppqosProfileService } from '../firebase-services/appqos-profile.servic
 import {Subscription} from 'rxjs/Subscription';
 import {MessageService} from 'primeng/components/common/messageservice';
 import {AppqosPredefinedService} from '../firebase-services/appqos-predefined.service';
+import {CustomComponent} from './custom/custom.component';
 
 
 @Component({
@@ -20,6 +21,7 @@ export class AppqosComponent implements OnInit, OnDestroy {
   appMoveButton: boolean;
   appUnassignButton: boolean;
   dialogRef: any;
+  dialogRefCustom: any;
   rowSelected: any;
   firebaseTenantSub: Subscription;
   firebaseAppqosProfileSub: Subscription;
@@ -27,9 +29,11 @@ export class AppqosComponent implements OnInit, OnDestroy {
   appqosprofiles = [];
   tempappqosprofiles = [];
 
+  loadingSpinner: boolean;
 
   constructor( @Inject(DOCUMENT) private document: any,
                public dialog: MatDialog,
+               public dialogCustom: MatDialog,
                private appqosProfile: AppqosProfileService,
                private msgService: MessageService,
                private appqosPredefinedSvc: AppqosPredefinedService,
@@ -50,6 +54,11 @@ export class AppqosComponent implements OnInit, OnDestroy {
         this.appqosprofiles = profiles;
 
       });
+    });
+
+    // Subscribe to loading Spinner Event Emitter from service
+    this.appqosPredefinedSvc.loadingSpinnerSvc.subscribe(spinnerflag => {
+      this.loadingSpinner = spinnerflag;
     });
   }
   ngOnDestroy()
@@ -82,6 +91,8 @@ export class AppqosComponent implements OnInit, OnDestroy {
 
   onClickAssignApp() {
 
+
+
     if (this.rowSelected.row.sdwanprofile === 'PENDING') {
       this.msgService.add({
         severity: 'dangerous', summary: 'Action not allowed', detail:
@@ -106,6 +117,7 @@ export class AppqosComponent implements OnInit, OnDestroy {
     });
     this.dialogRef.afterClosed()
       .subscribe((profile: string) => {
+
         if ( !profile )
         {
           return;
@@ -218,6 +230,14 @@ export class AppqosComponent implements OnInit, OnDestroy {
 
       });
 
+  }
+  onCreateCustomApp() {
+    this.dialogRefCustom = this.dialogCustom.open(CustomComponent, {
+      panelClass: 'custom-app-form-dialog',
+      width: 'auto',
+      height: '420px'
+
+    });
   }
 
 }

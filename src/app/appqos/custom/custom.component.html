@@ -1,0 +1,63 @@
+<div class="dialog-content-wrapper">
+  <mat-toolbar matDialogTitle class="mat-accent-bg m-0">
+    <mat-toolbar-row fxLayout="row" fxLayoutAlign="space-between center">
+      <span class="title dialog-title">Create Custom App</span>
+      <button mat-button class="mat-icon-button"
+              (click)="dialogRefCustom.close()"
+              aria-label="Close dialog" [ngClass]="{'fill': 'white'}">
+        <mat-icon>close</mat-icon>
+      </button>
+    </mat-toolbar-row>
+  </mat-toolbar>
+  <div class="mb-24" fxLayout="row" fxLayoutAlign="start start">
+    <div mat-dialog-content class="p-24 m-12" fusePerfectScrollbar>
+      <mat-horizontal-stepper #stepper>
+        <mat-step [stepControl]="firstFormGroup">
+          <form [formGroup]="firstFormGroup">
+            <ng-template matStepLabel>Select App Type</ng-template>
+            <mat-form-field class="m-12" color="accent">
+              <div class="app-type-select">
+              <mat-select placeholder="Select App Type" formControlName="firstCtrl">
+                <mat-option [value]="'udp-tcp'">udp-tcp</mat-option>
+                <mat-option [value]="'http url'">http url</mat-option>
+                <mat-option [value]="'ssl sni'">ssl sni</mat-option>
+              </mat-select>
+              </div>
+            </mat-form-field>
+            <div>
+              <button mat-raised-button color="accent" matStepperNext>Next</button>
+            </div>
+          </form>
+        </mat-step>
+        <mat-step [stepControl]="secondFormGroup">
+          <form [formGroup]="secondFormGroup">
+            <ng-template matStepLabel>Enter App Details</ng-template>
+            <mat-form-field color="accent">
+              <input matInput placeholder="Address" formControlName="secondCtrl" required>
+            </mat-form-field>
+            <div>
+
+              <button mat-raised-button matStepperPrevious>Back</button>
+              &nbsp;&nbsp;&nbsp;
+              <button mat-raised-button color="accent" matStepperNext>Next</button>
+
+
+            </div>
+          </form>
+        </mat-step>
+        <mat-step>
+          <ng-template matStepLabel>Done</ng-template>
+          You are now done.
+          <div class="mt-28">
+            <button mat-raised-button matStepperPrevious>Back</button>
+            &nbsp;&nbsp;&nbsp;
+            <button mat-raised-button color="warn" (click)="stepper.reset()">Reset</button>
+            &nbsp;&nbsp;&nbsp;
+            <button mat-raised-button color="accent">Save</button>
+          </div>
+        </mat-step>
+      </mat-horizontal-stepper>
+    </div>
+  </div>
+</div>
+
