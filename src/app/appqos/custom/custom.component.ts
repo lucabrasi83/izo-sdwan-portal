@@ -261,7 +261,7 @@ export class CustomComponent implements OnInit {
   }
 
   onRemoveIPAddress() {
-    (<FormArray>this.tcpudpAppFormGroup.get('portsArray')).removeAt(-1);
+    (<FormArray>this.tcpudpAppFormGroup.get('ipaddressArray')).removeAt(-1);
   }
 
 
