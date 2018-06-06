@@ -11,49 +11,530 @@
   </mat-toolbar>
   <div class="mb-24" fxLayout="row" fxLayoutAlign="start start">
     <div mat-dialog-content class="p-24 m-12" fusePerfectScrollbar>
-      <mat-horizontal-stepper #stepper>
-        <mat-step [stepControl]="firstFormGroup">
-          <form [formGroup]="firstFormGroup">
+      <mat-horizontal-stepper #stepper linear>
+        <ng-template matStepperIcon="edit">
+          <mat-icon>check</mat-icon>
+        </ng-template>
+
+        <mat-step [stepControl]="appNameFormGroup">
+
+          <form [formGroup]="appNameFormGroup" (ngSubmit)="form1()" #formAppName="ngForm">
+            <ng-template matStepLabel>Enter App Name</ng-template>
+            <mat-form-field class="m-12"
+                            color="accent" style="display:flex; flex-direction: column;"
+                            fxFlex
+                            >
+              <input matInput placeholder="Enter App Name (eg:MyApp)" formControlName="appNameCtrl"
+                     required>
+              <mat-error
+                *ngIf="appNameFormGroup.get('appNameCtrl').errors &&
+                appNameFormGroup.get('appNameCtrl').errors['required']">
+                App Name is required
+              </mat-error>
+              <mat-error *ngIf="appNameFormGroup.get('appNameCtrl').errors &&
+               appNameFormGroup.get('appNameCtrl').errors.maxlength">
+                The App Name must have a maximum of 15 characters
+              </mat-error>
+
+              <mat-error *ngIf="appNameFormGroup.get('appNameCtrl').errors &&
+               appNameFormGroup.get('appNameCtrl').errors.minlength">
+                The App Name must have a minimum of 3 characters
+              </mat-error>
+
+              <mat-error *ngIf="appNameFormGroup.get('appNameCtrl').errors &&
+               appNameFormGroup.get('appNameCtrl').errors.pattern">
+                App Name is invalid. Only Alphanumeric Characters allowed.
+              </mat-error>
+            </mat-form-field>
+
+            <div mat-dialog-actions fxLayoutAlign="center center">
+              <button mat-raised-button color="accent" matStepperNext type="button">Next</button>
+            </div>
+
+          </form>
+
+        </mat-step>
+
+
+
+        <mat-step [stepControl]="appTypeFormGroup">
+
+          <form [formGroup]="appTypeFormGroup" (ngSubmit)="form1()" #formone="ngForm">
             <ng-template matStepLabel>Select App Type</ng-template>
-            <mat-form-field class="m-12" color="accent">
+            <mat-form-field class="m-12" color="accent" fxFlex fxLayoutAlign="center center">
               <div class="app-type-select">
-              <mat-select placeholder="Select App Type" formControlName="firstCtrl">
-                <mat-option [value]="'udp-tcp'">udp-tcp</mat-option>
-                <mat-option [value]="'http url'">http url</mat-option>
-                <mat-option [value]="'ssl sni'">ssl sni</mat-option>
-              </mat-select>
+                <mat-select placeholder="Select App Type" [formControlName]="'appTypeCtrl'" required>
+                  <mat-option [value]="'transport'">transport</mat-option>
+                  <mat-option [value]="'http-url'">http url</mat-option>
+                  <mat-option [value]="'ssl-sni'">ssl sni</mat-option>
+                </mat-select>
               </div>
+              <mat-error
+                *ngIf="appTypeFormGroup.get('appTypeCtrl').errors &&
+                appTypeFormGroup.get('appTypeCtrl').errors['required']">
+                App Type is required
+              </mat-error>
             </mat-form-field>
-            <div>
-              <button mat-raised-button color="accent" matStepperNext>Next</button>
-            </div>
-          </form>
-        </mat-step>
-        <mat-step [stepControl]="secondFormGroup">
-          <form [formGroup]="secondFormGroup">
-            <ng-template matStepLabel>Enter App Details</ng-template>
-            <mat-form-field color="accent">
-              <input matInput placeholder="Address" formControlName="secondCtrl" required>
-            </mat-form-field>
-            <div>
 
-              <button mat-raised-button matStepperPrevious>Back</button>
+            <div mat-dialog-actions style="display:flex; flex-direction: row;" fxLayoutAlign="center center">
+              <button mat-raised-button matStepperPrevious type="button">Back</button>
               &nbsp;&nbsp;&nbsp;
-              <button mat-raised-button color="accent" matStepperNext>Next</button>
+              <button mat-raised-button color="accent" matStepperNext type="button">Next</button>
+            </div>
+          </form>
+
+
+        </mat-step>
+
+
+        <mat-step [stepControl]="httpurlAppFormGroup" *ngIf="appTypeFormGroup.get('appTypeCtrl').value === 'http-url'">
+
+          <form [formGroup]="httpurlAppFormGroup" (ngSubmit)="form2()" #formtwo="ngForm">
+            <ng-template matStepLabel>Enter App Details</ng-template>
+            <mat-form-field color="accent" class="m-12" style="display:flex; flex-direction: column;"
+                            fxFlex>
+              <input matInput placeholder="Enter URL pattern (eg: *.cisco.com)" formControlName="httpurlControl"
+                     required>
+
+
+              <mat-error *ngIf="httpurlAppFormGroup.get('httpurlControl').errors &&
+               httpurlAppFormGroup.get('httpurlControl').errors['required']">
+                The HTTP URL pattern is required
+              </mat-error>
+
+              <mat-error *ngIf="httpurlAppFormGroup.get('httpurlControl').errors &&
+               httpurlAppFormGroup.get('httpurlControl').errors.maxlength">
+                The HTTP URL pattern must have a maximum of 30 characters
+              </mat-error>
+
+              <mat-error *ngIf="httpurlAppFormGroup.get('httpurlControl').errors &&
+               httpurlAppFormGroup.get('httpurlControl').errors.minlength">
+                The HTTP URL pattern must have a minimum of 3 characters
+              </mat-error>
+
+              <mat-error *ngIf="httpurlAppFormGroup.get('httpurlControl').errors &&
+               httpurlAppFormGroup.get('httpurlControl').errors.pattern">
+                Please enter a valid HTTP URL pattern in lower case
+              </mat-error>
+
+            </mat-form-field>
+            <div mat-dialog-actions style="display:flex; flex-direction: row;"
+                 fxFlex fxLayoutAlign="center center">
+
+              <button mat-raised-button matStepperPrevious type="button">Back</button>
+              &nbsp;&nbsp;&nbsp;
+              <button mat-raised-button color="accent" matStepperNext type="button">Next</button>
+
+            </div>
+          </form>
+
+
+        </mat-step>
+
+        <!--Dummy Step to always show 4 steps-->
+        <mat-step [stepControl]="dummyFormGroup" *ngIf="!appTypeFormGroup.get('appTypeCtrl').value">
+
+          <form [formGroup]="dummyFormGroup">
+            <ng-template matStepLabel>Enter App Details</ng-template>
+            <mat-form-field color="accent" class="m-24" style="display:flex; flex-direction: column;" fxLayoutAlign="center center">
+              <input matInput placeholder="" formControlName="dummyControl"
+                     required>
+
+            </mat-form-field>
+          </form>
+
+        </mat-step>
+
+        <mat-step [stepControl]="sslsniAppFormGroup" *ngIf="appTypeFormGroup.get('appTypeCtrl').value === 'ssl-sni'">
+
+          <form [formGroup]="sslsniAppFormGroup" (ngSubmit)="form2()" #formtwo="ngForm">
+            <ng-template matStepLabel>Enter App Details</ng-template>
+            <mat-form-field color="accent" class="m-12" style="display:flex; flex-direction: column;"
+                            fxFlex>
+              <input matInput placeholder="Enter SSL SNI/CN pattern (eg: *.cisco.com)" formControlName="sslsniControl"
+                     required>
+              <!-- <mat-error *ngIf="secondFormGroup.get('secondCtrl').errors &&
+               secondFormGroup.get('secondCtrl').errors['IPIsForbidden']">
+                 This IP Address is not allowed
+               </mat-error>
+              <mat-error *ngIf="secondFormGroup.get('secondCtrl').errors &&
+               secondFormGroup.get('secondCtrl').errors.pattern">
+                Please enter a valid IPv4 Address
+              </mat-error>-->
+
+              <mat-error *ngIf="sslsniAppFormGroup.get('sslsniControl').errors &&
+               sslsniAppFormGroup.get('sslsniControl').errors['required']">
+                The SSL SNI/CN pattern is required
+              </mat-error>
+
+              <mat-error *ngIf="sslsniAppFormGroup.get('sslsniControl').errors &&
+               sslsniAppFormGroup.get('sslsniControl').errors.maxlength">
+                The SSL SNI/CN pattern must have a maximum of 30 characters
+              </mat-error>
+
+              <mat-error *ngIf="sslsniAppFormGroup.get('sslsniControl').errors &&
+               sslsniAppFormGroup.get('sslsniControl').errors.minlength">
+                The SSL SNI/CN pattern must have a minimum of 3 characters
+              </mat-error>
+
+              <mat-error *ngIf="sslsniAppFormGroup.get('sslsniControl').errors &&
+               sslsniAppFormGroup.get('sslsniControl').errors.pattern">
+                Please enter a valid SSL SNI/CN pattern in lower case
+              </mat-error>
+
+            </mat-form-field>
+            <div mat-dialog-actions style="display:flex; flex-direction: row;"
+                 fxFlex fxLayoutAlign="center center">
+
+              <button mat-raised-button matStepperPrevious type="button">Back</button>
+              &nbsp;&nbsp;&nbsp;
+              <button mat-raised-button color="accent" matStepperNext type="button">Next</button>
 
 
             </div>
           </form>
+
+
         </mat-step>
+
+        <mat-step [stepControl]="tcpudpAppFormGroup" *ngIf="appTypeFormGroup.get('appTypeCtrl').value === 'transport'">
+
+          <form [formGroup]="tcpudpAppFormGroup">
+            <ng-template matStepLabel>Enter App Details</ng-template>
+
+            <mat-form-field color="accent" class="m-12" style="display:flex; flex-direction: row;"
+                            fxFlex fxLayoutAlign="center center">
+              <div class="app-type-select">
+                <mat-select placeholder="Select Transport Type" [formControlName]="'transporttypeCtrl'" required>
+                  <mat-option [value]="'udp-tcp'">udp-tcp</mat-option>
+                  <mat-option [value]="'tcp'">tcp</mat-option>
+                  <mat-option [value]="'udp'">udp</mat-option>
+                </mat-select>
+              </div>
+              <mat-error *ngIf="tcpudpAppFormGroup.get('transporttypeCtrl').errors &&
+               tcpudpAppFormGroup.get('transporttypeCtrl').errors['required']">
+               Transport Type Selection is required
+              </mat-error>
+
+            </mat-form-field>
+
+            <mat-divider></mat-divider>
+
+            <div style="display:flex; flex-direction: row;" fxFlex fxLayoutAlign="center center">
+            <mat-form-field color="accent" class="m-12">
+              <div class="app-type-select">
+                <mat-select placeholder="Select IP Type"
+                            [formControlName]="'iptypeCtrl'"
+                            required
+                            (selectionChange)="onChangeIPTypeSelection($event)">
+                  <mat-option [value]="'ip-address'">IP Addresses List</mat-option>
+                  <mat-option [value]="'cidr'">Subnet</mat-option>
+                </mat-select>
+              </div>
+              <mat-error *ngIf="tcpudpAppFormGroup.get('iptypeCtrl').errors &&
+               tcpudpAppFormGroup.get('iptypeCtrl').errors['required']">
+                IP Type Selection is required
+              </mat-error>
+
+            </mat-form-field>
+
+
+
+            <div class="plus-minus-icons"
+                 *ngIf="tcpudpAppFormGroup.get('iptypeCtrl').value === 'ip-address'">
+              <button mat-mini-fab color="accent" type="button" (click)="onAddIPAddress()">
+                <mat-icon>add</mat-icon>
+              </button>
+              &nbsp;&nbsp;
+              <button mat-mini-fab color="warn" type="button" (click)="onRemoveIPAddress()">
+                <mat-icon>remove</mat-icon>
+              </button>
+            </div>
+            </div>
+            <div [formArrayName]="'ipaddressArray'"
+                 *ngIf="tcpudpAppFormGroup.get('iptypeCtrl').value === 'ip-address'">
+
+             <!-- <div style="display: flex; flex-direction: row;"
+                   fxFlex fxLayoutAlign="start center"
+                   >-->
+              <mat-error *ngIf="tcpudpAppFormGroup.get('ipaddressArray').errors &&
+                                tcpudpAppFormGroup.get('ipaddressArray').errors['required']"
+                         style="display: flex; flex-direction: column;font-size: 12px;"
+                         class="pb-16"
+                         fxFlex fxLayoutAlign="center center">
+                A minimum of one IP is required
+              </mat-error>
+
+              <mat-error *ngIf="tcpudpAppFormGroup.get('ipaddressArray').length === 8"
+                         style="display: flex; flex-direction: column; font-size: 12px;"
+                         fxFlex fxLayoutAlign="center center"
+                         class="pb-16">
+                A maximum of 8 IP Addresses are allowed.
+              </mat-error>
+
+            <mat-form-field color="accent"
+                            class="pb-20"
+                            style="display: flex; flex-direction: column;"
+                            fxFlex fxLayoutAlign="center center"
+                            *ngFor="let ipaddressControl of tcpudpAppFormGroup.get('ipaddressArray').controls;
+                            let i = index">
+
+
+              <input matInput placeholder="Enter an IP Address"
+                     required [formControlName]="i">
+
+               <mat-error *ngIf="tcpudpAppFormGroup.get('ipaddressArray').controls[i].errors &&
+               tcpudpAppFormGroup.get('ipaddressArray').controls[i].errors['IPIsForbidden']">
+                 This IPv4 Address is not allowed
+               </mat-error>
+
+              <mat-error *ngIf="tcpudpAppFormGroup.get('ipaddressArray').controls[i].errors &&
+               tcpudpAppFormGroup.get('ipaddressArray').controls[i].errors.pattern">
+                Invalid IPv4 Address
+              </mat-error>
+
+              <mat-error *ngIf="tcpudpAppFormGroup.get('ipaddressArray').controls[i].errors &&
+               tcpudpAppFormGroup.get('ipaddressArray').controls[i].errors['required']">
+                IPv4 address is required
+              </mat-error>
+
+            </mat-form-field>
+
+              <!--</div>-->
+
+            </div>
+
+            <div class="pb-20"
+                 style="display: flex; flex-direction: row;"
+                 fxFlex fxLayoutAlign="center center"
+                 *ngIf="tcpudpAppFormGroup.get('iptypeCtrl').value === 'cidr'">
+
+            <mat-form-field color="accent">
+
+
+              <input matInput placeholder="Enter Subnet Address"
+                     required [formControlName]="'subnetaddressCtrl'">
+
+              <mat-error *ngIf="tcpudpAppFormGroup.get('subnetaddressCtrl').errors &&
+               tcpudpAppFormGroup.get('subnetaddressCtrl').errors['IPIsForbidden']">
+                IPv4 Subnet Address not allowed
+              </mat-error>
+
+              <mat-error *ngIf="tcpudpAppFormGroup.get('subnetaddressCtrl').errors &&
+               tcpudpAppFormGroup.get('subnetaddressCtrl').errors.pattern">
+               Invalid IPv4 Subnet Address
+              </mat-error>
+
+              <mat-error *ngIf="tcpudpAppFormGroup.get('subnetaddressCtrl').errors &&
+               tcpudpAppFormGroup.get('subnetaddressCtrl').errors['required']">
+                IPv4 Subnet Address is required
+              </mat-error>
+
+
+            </mat-form-field>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              <mat-form-field color="accent">
+
+
+                <input matInput placeholder="Enter Subnet Length" type="number"
+                       required [formControlName]="'subnetlengthCtrl'">
+
+                <mat-error *ngIf="tcpudpAppFormGroup.get('subnetlengthCtrl').errors &&
+               tcpudpAppFormGroup.get('subnetlengthCtrl').errors['required']">
+                  IPv4 Subnet Length is required
+                </mat-error>
+
+                <mat-error *ngIf="tcpudpAppFormGroup.get('subnetlengthCtrl').errors &&
+               tcpudpAppFormGroup.get('subnetlengthCtrl').errors.pattern">
+                  Invalid Subnet Length
+                </mat-error>
+
+
+              </mat-form-field>
+            </div>
+
+            <mat-divider></mat-divider>
+          <div style="display:flex; flex-direction: row;"
+               fxFlex fxLayoutAlign="center center">
+            <mat-form-field color="accent" class="m-12">
+              <div class="app-type-select">
+                <mat-select placeholder="Select Port Type"
+                            [formControlName]="'porttypeCtrl'" required
+                            (selectionChange)="onChangePortTypeSelection($event)">
+                  <mat-option [value]="'ports'">Ports List</mat-option>
+                  <mat-option [value]="'port-range'">Port Range</mat-option>
+                </mat-select>
+              </div>
+
+              <mat-error *ngIf="tcpudpAppFormGroup.get('porttypeCtrl').errors &&
+               tcpudpAppFormGroup.get('porttypeCtrl').errors['required']">
+                Port Type Selection is required
+              </mat-error>
+            </mat-form-field>
+
+            <!-- Individual Ports Form Section START-->
+
+            <div class="plus-minus-icons" *ngIf="tcpudpAppFormGroup.get('porttypeCtrl').value === 'ports'">
+              <button mat-mini-fab color="accent" type="button" (click)="onAddPort()">
+                <mat-icon>add</mat-icon>
+              </button>
+              &nbsp;&nbsp;
+              <button mat-mini-fab color="warn" type="button" (click)="onRemovePort()">
+                <mat-icon>remove</mat-icon>
+              </button>
+            </div>
+    </div>
+    <div [formArrayName]="'portsArray'"
+         *ngIf="tcpudpAppFormGroup.get('porttypeCtrl').value === 'ports'">
+
+
+      <mat-error *ngIf="tcpudpAppFormGroup.get('portsArray').errors &&
+                                tcpudpAppFormGroup.get('portsArray').errors['required']"
+                 style="display: flex; flex-direction: column;font-size: 12px;"
+                 class="pb-16"
+                 fxFlex fxLayoutAlign="center center">
+        A minimum of one Port is required
+      </mat-error>
+
+      <mat-error *ngIf="tcpudpAppFormGroup.get('portsArray').length === 8"
+                 style="display: flex; flex-direction: column; font-size: 12px;"
+                 fxFlex fxLayoutAlign="center center"
+                 class="pb-16">
+        A maximum of 8 IP Ports are allowed.
+      </mat-error>
+
+      <mat-form-field color="accent"
+                      class="pb-24"
+                      style="display: flex; flex-direction: column;"
+                      fxFlex fxLayoutAlign="center center"
+                      *ngFor="let portControl of tcpudpAppFormGroup.get('portsArray').controls;
+                            let i = index">
+
+
+        <input matInput placeholder="Enter a Port Number"
+               required [formControlName]="i">
+
+        <mat-error *ngIf="tcpudpAppFormGroup.get('portsArray').controls[i].errors &&
+               tcpudpAppFormGroup.get('portsArray').controls[i].errors['PortIsForbidden']">
+          This Port Number is not allowed
+        </mat-error>
+
+        <mat-error *ngIf="tcpudpAppFormGroup.get('portsArray').controls[i].errors &&
+               tcpudpAppFormGroup.get('portsArray').controls[i].errors.pattern">
+          Invalid Port Number<br>
+          Valid Range: 1024 to 65535
+        </mat-error>
+
+        <mat-error *ngIf="tcpudpAppFormGroup.get('portsArray').controls[i].errors &&
+               tcpudpAppFormGroup.get('portsArray').controls[i].errors['required']">
+          Port Number is required
+        </mat-error>
+
+      </mat-form-field>
+
+      <!--</div>-->
+
+    </div>
+
+            <!-- Individual Ports Form Section END -->
+
+
+            <div class="pb-20"
+                 style="display: flex; flex-direction: row;"
+                 fxFlex fxLayoutAlign="center center"
+                 *ngIf="tcpudpAppFormGroup.get('porttypeCtrl').value === 'port-range'">
+
+              <mat-form-field color="accent">
+
+
+                <input matInput placeholder="Enter Start Port" type="number"
+                       required [formControlName]="'startportCtrl'">
+
+                <mat-error *ngIf="tcpudpAppFormGroup.get('startportCtrl').errors &&
+               tcpudpAppFormGroup.get('startportCtrl').errors['PortIsForbidden']">
+                  Port Number not allowed
+                </mat-error>
+
+                <mat-error *ngIf="tcpudpAppFormGroup.get('startportCtrl').errors &&
+               tcpudpAppFormGroup.get('startportCtrl').errors.pattern">
+                  Invalid Port Number<br>
+                  Valid Range: 1024 to 65535
+                </mat-error>
+
+                <mat-error *ngIf="tcpudpAppFormGroup.get('startportCtrl').errors &&
+               tcpudpAppFormGroup.get('startportCtrl').errors['required']">
+                  Start Port Number is required
+                </mat-error>
+
+                <mat-error *ngIf="tcpudpAppFormGroup.get('startportCtrl').errors &&
+               tcpudpAppFormGroup.get('startportCtrl').errors['StartPortHigher']">
+                  Start Port number must be lower than End Port
+                </mat-error>
+
+
+              </mat-form-field>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              <mat-form-field color="accent">
+
+
+                <input matInput placeholder="Enter End Port" type="number"
+                       required [formControlName]="'endportCtrl'">
+
+                <mat-error *ngIf="tcpudpAppFormGroup.get('endportCtrl').errors &&
+               tcpudpAppFormGroup.get('endportCtrl').errors['PortIsForbidden']">
+                  Port Number not allowed
+                </mat-error>
+
+                <mat-error *ngIf="tcpudpAppFormGroup.get('endportCtrl').errors &&
+               tcpudpAppFormGroup.get('endportCtrl').errors.pattern">
+                  Invalid Port Number<br>
+                  Valid Range: 1024 to 65535
+                </mat-error>
+
+                <mat-error *ngIf="tcpudpAppFormGroup.get('endportCtrl').errors &&
+               tcpudpAppFormGroup.get('endportCtrl').errors['required']">
+                  End Port Number is required
+                </mat-error>
+
+                <mat-error *ngIf="tcpudpAppFormGroup.get('endportCtrl').errors &&
+               tcpudpAppFormGroup.get('endportCtrl').errors['EndPortLower']">
+                  End Port number must be higher than Start Port
+                </mat-error>
+
+
+              </mat-form-field>
+            </div>
+
+
+
+            <div mat-dialog-actions fxFlex="row" class="mt-20"
+                 fxLayoutAlign="center center">
+
+              <button mat-raised-button matStepperPrevious type="button" style="z-index: 9999;">Back</button>
+              &nbsp;&nbsp;&nbsp;
+              <button mat-raised-button color="accent" matStepperNext type="button" style="z-index: 9999;">Next</button>
+
+
+            </div>
+
+          </form>
+
+
+        </mat-step>
+
         <mat-step>
           <ng-template matStepLabel>Done</ng-template>
-          You are now done.
-          <div class="mt-28">
+
+          <div fxFlex fxLayoutAlign="center center">
+          <strong>All inputs have been validated. Click Submit button to create the custom app.</strong>
+          </div>
+          <div class="mt-28" fxFlex fxLayoutAlign="center center">
             <button mat-raised-button matStepperPrevious>Back</button>
             &nbsp;&nbsp;&nbsp;
             <button mat-raised-button color="warn" (click)="stepper.reset()">Reset</button>
             &nbsp;&nbsp;&nbsp;
-            <button mat-raised-button color="accent">Save</button>
+            <button mat-raised-button color="accent" (click)="onSubmitForm()">Submit
+            </button>
           </div>
         </mat-step>
       </mat-horizontal-stepper>

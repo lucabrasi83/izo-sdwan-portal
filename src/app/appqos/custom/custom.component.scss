@@ -24,7 +24,7 @@
   }
 
   .dialog-content-wrapper {
-    max-height: 85vh;
+    max-height: 99vh;
     display: flex;
     flex-direction: column;
   }
@@ -53,6 +53,50 @@
   .mat-select-value-text {
     font-size: 14px;
   }
+  .mat-select-trigger {
+    font-size: 14px;
+  }
+
 
 }
+.mat-step-header .mat-step-icon {
+  background-color: #00b0ff;
+}
 
+.plus-minus-icons {
+
+
+  .mat-mini-fab  {
+    width: 24px;
+    height: 24px;
+
+  }
+
+  .mat-icon {
+    margin: auto;
+    display: inline-block;
+    width: 24px;
+    height: 24px;
+    font-size: 18px;
+    vertical-align: middle;
+    line-height: 8px;
+  }
+  .mat-icon-inline {
+    margin: auto;
+    display: inline-block;
+    width: 24px;
+    height: 24px;
+    font-size: 18px;
+    vertical-align: middle;
+    line-height: 8px;
+
+  }
+
+  .appname-field {
+    .mat-form-field {
+      width: 200px;
+    }
+  }
+
+
+}

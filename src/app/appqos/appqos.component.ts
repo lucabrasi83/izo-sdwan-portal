@@ -29,6 +29,7 @@ export class AppqosComponent implements OnInit, OnDestroy {
   appqosprofiles = [];
   tempappqosprofiles = [];
 
+
   loadingSpinner: boolean;
 
   constructor( @Inject(DOCUMENT) private document: any,
@@ -235,7 +236,8 @@ export class AppqosComponent implements OnInit, OnDestroy {
     this.dialogRefCustom = this.dialogCustom.open(CustomComponent, {
       panelClass: 'custom-app-form-dialog',
       width: 'auto',
-      height: '420px'
+      height: 'auto',
+      maxHeight: 'auto'
 
     });
   }
