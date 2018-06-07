@@ -5,19 +5,24 @@
   <mat-icon>search</mat-icon>
   <div style="width: 100%;display: flex; flex-direction: column;">
     <mat-form-field color="accent" style="padding:8px;">
-      <input type="text" matInput (keyup)="updateFilter($event)"
+      <input type="text" matInput (input)="updateFilter()"
              placeholder="Filter Apps Data..."
-              [(ngModel)]="filterValue">
+              [(ngModel)]="filteredValue">
     </mat-form-field>
   </div>
 </div>
+
+
+
 <div class="content p-24 mx-112">
+
+
 <ngx-datatable
   #table
-  [rows]="rows"
+  [rows]="rows | async"
   class="material"
-  [loadingIndicator]="loadingIndicator"
   [columnMode]="'force'"
+  [loadingIndicator]="loadingIndicator"
   [sortType]="'multi'"
   [headerHeight]="50"
   [footerHeight]="70"
@@ -25,10 +30,7 @@
   [limit]="10"
   [selectionType]="'checkbox'"
   [@animateStagger]="{value:'50'}"
-  [trackByProp]="'sdwanprofile'"
-
-
->
+  [trackByProp]="'sdwanprofile'">
   <ngx-datatable-footer>
     <ng-template
       ngx-datatable-footer-template
@@ -98,7 +100,7 @@
 
 
       <mat-checkbox [checked]="index === rowIndex"
-                    (change)="onSelect($event, row)"
+                    (change)="onSelect($event, rowIndex)"
                     [value]="row">
       </mat-checkbox>
 
@@ -146,7 +148,7 @@
 
   </ngx-datatable-column>
 
-
 </ngx-datatable>
 
 </div>
+

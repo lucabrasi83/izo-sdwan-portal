@@ -33,6 +33,7 @@ import {AuthguardService} from '../authguard/authguard.service';
 import { LoadingModule, ANIMATION_TYPES } from 'ngx-loading';
 import { CustomComponent } from './custom/custom.component';
 
+
 const routes: Routes = [
   {
     path: '',
@@ -69,7 +70,6 @@ const routes: Routes = [
     LoadingModule.forRoot({
       animationType: ANIMATION_TYPES.circleSwish,
       backdropBackgroundColour: 'rgba(255,255,255,0.8)',
-      backdropBorderRadius: '4px',
       primaryColour: '#03a9f4',
       secondaryColour: '#03a9f4',
       tertiaryColour: '#03a9f4'

@@ -25,7 +25,6 @@ import { AvatarModule } from 'ng2-avatar';
 import {GrowlModule} from 'primeng/growl';
 import {MessageService} from 'primeng/components/common/messageservice';
 
-
 const appRoutes: Routes = [
   {
     path      : '',

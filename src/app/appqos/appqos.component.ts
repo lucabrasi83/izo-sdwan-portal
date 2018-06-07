@@ -58,6 +58,7 @@ export class AppqosComponent implements OnInit, OnDestroy {
     });
 
     // Subscribe to loading Spinner Event Emitter from service
+    // To be changed to Subject type at some point
     this.appqosPredefinedSvc.loadingSpinnerSvc.subscribe(spinnerflag => {
       this.loadingSpinner = spinnerflag;
     });

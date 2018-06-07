@@ -1,7 +1,8 @@
 import {Component, ElementRef, HostBinding, Inject, OnDestroy, Renderer2, ViewEncapsulation, ViewChild, OnInit} from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { Platform } from '@angular/cdk/platform';
-import { Subscription } from 'rxjs/Subscription';
+import {Observable, Subscription} from 'rxjs';
+import {map, filter, distinctUntilChanged, tap, debounceTime } from 'rxjs/operators';
 import { FuseConfigService } from '@fuse/services/config.service';
 import { MatDialog } from '@angular/material';
 import { FuseStaticRouteComponent } from './fuse-static-route/fuse-static-route.component';
@@ -26,8 +27,13 @@ export class FuseMainComponent implements OnDestroy, OnInit
     dialogRef: any;
     rowSelected: boolean;
     deviceSelected: any;
-    loadingIndicator = true;
+    loadingIndicator: boolean;
     index: number;
+    tenant: any;
+    filteredValue: string;
+
+    // Instantiate Rows
+    rows: Observable<Inventory[]>;
 
 
     @ViewChild(DatatableComponent) table: DatatableComponent;
@@ -35,13 +41,11 @@ export class FuseMainComponent implements OnDestroy, OnInit
     @HostBinding('attr.fuse-layout-mode') layoutMode;
 
 
-  // Instantiate Rows
-  rows: Inventory[];
 
   // Instantiate Temp for Table filtering
   temp: Inventory[];
 
-  tenant: any;
+
 
     constructor(
         private _renderer: Renderer2,
@@ -80,9 +84,9 @@ export class FuseMainComponent implements OnDestroy, OnInit
 
  }
 
-  onSelect($event, row: any) {
+  onSelect($event, row: any, rowIndex) {
     if ($event.source.checked) {
-      this.index = this.rows.indexOf(row);
+      this.index = rowIndex;
       this.deviceSelected = row;
     }
     else {
@@ -106,34 +110,60 @@ export class FuseMainComponent implements OnDestroy, OnInit
 
 
   }
-  updateFilter(event) {
-    const val = event.target.value.toLowerCase().trim();
-
-    // get the columns numbers
-    const colsAmt = 8;
-
-    // get the key names for each column in dataset
-    const keys = Object.keys(this.temp[0]);
+  updateFilter() {
 
 
-    const temp = this.temp.filter(function(item){
-      for (let i = 0; i < colsAmt; i++){
-        // check for a match
-        if (item[keys[i]].toLowerCase().indexOf(val) !== -1 || !val){
-          // found match, return true to add to result set
-          return true;
-        }
-      }
-    });
+    if (this.filteredValue) {
+      const val = this.filteredValue.toLowerCase().toString().trim();
 
-    // update the rows
-    this.rows = temp;
+      this.loadingIndicator = true;
+      this.rows = this.inventoryService.getTenantDevices(this.tenant)
+          .pipe(
+            // Keep original Array copy before filtering
 
-    // Set Index to Infinite Value to uncheck selection when filtering
-    this.index = 99999;
+            distinctUntilChanged(),
+            debounceTime(1000),
+            // Filter Observable on desired keys
+            map(_mapobj => _mapobj.filter(_filteredobj =>
+              _filteredobj['site_name'].toLowerCase().toString().trim().indexOf(val) !== -1 || !val
+              ||
+              _filteredobj['device_name'].toLowerCase().toString().trim().indexOf(val) !== -1 || !val
+              ||
+              _filteredobj['status'].toLowerCase().toString().trim().indexOf(val) !== -1 || !val
+              ||
+              _filteredobj['sn'].toLowerCase().toString().trim().indexOf(val) !== -1 || !val
+              ||
+              _filteredobj['os_version'].toLowerCase().toString().trim().indexOf(val) !== -1 || !val
+              ||
+              _filteredobj['activation_status'].toLowerCase().toString().trim().indexOf(val) !== -1 || !val
+              ||
+              _filteredobj['device_model'].toLowerCase().toString().trim().indexOf(val) !== -1 || !val
+            )),
+            tap(res => {
+              this.loadingIndicator = false;
+            })
+          );
 
-    // Whenever the filter changes, always go back to the first page
-    this.table.offset = 0;
+    }
+
+    else {
+      this.loadingIndicator = true;
+      this.rows = this.inventoryService.getTenantDevices(this.tenant)
+          .pipe(
+            distinctUntilChanged(),
+            tap(res => {
+
+              this.loadingIndicator =
+                false;
+            })
+          );
+
+      // Set Index to Infinite Value to uncheck selection when filtering
+      this.index = 99999;
+
+      // Whenever the filter changes, always go back to the first page
+      this.table.offset = 0;
+    }
   }
   // Event to handle Page limit change in ngx-datatable
   onLimitChange($event) {
@@ -154,16 +184,17 @@ export class FuseMainComponent implements OnDestroy, OnInit
   // Subscribe to Inventory Observable from Firebase
   ngOnInit() {
 
-
+      this.loadingIndicator = true;
       // First Retrieve Tenant ID from user
      this.firebaseTenantSub = this.inventoryService.getTenantObject().subscribe(tenantid => {
       this.tenant = tenantid.payload.val();
-       this.firebaseInvSub = this.inventoryService.getTenantDevices(this.tenant).subscribe(devicesarray =>
-      {
-        this.rows = devicesarray;
-        this.temp = this.rows;
-        this.loadingIndicator = false;
-      });
+
+      this.rows = this.inventoryService.getTenantDevices(this.tenant)
+        .pipe(
+          tap (_tabobj => {
+            this.loadingIndicator = false;
+          })
+        );
     });
 
 
@@ -173,7 +204,7 @@ export class FuseMainComponent implements OnDestroy, OnInit
     {
         this.onConfigChanged.unsubscribe();
         this.firebaseTenantSub.unsubscribe();
-        this.firebaseInvSub.unsubscribe();
+
     }
 
     addClass(className: string)

@@ -28,7 +28,10 @@
     <mat-icon>search</mat-icon>
     <div style="width: 100%;display: flex; flex-direction: column;">
       <mat-form-field color="accent" style="padding:8px;">
-        <input type="text" matInput (keyup)="updateFilter($event)" placeholder="Filter Inventory Data...">
+        <input type="text" matInput
+               (input)="updateFilter()"
+               [(ngModel)] = "filteredValue"
+               placeholder="Filter Inventory Data...">
       </mat-form-field>
     </div>
   </div>
@@ -36,7 +39,7 @@
 <div class="content p-24" fusePerfectScrollbar>
                 <ngx-datatable
                   #table
-                  [rows]="rows"
+                  [rows]="rows | async"
                   class="material"
                   [loadingIndicator]="loadingIndicator"
                   [columnMode]="'force'"
@@ -114,7 +117,7 @@
                                  let-onCheckboxChangeFn="onCheckboxChangeFn" let-row="row" let-rowIndex="rowIndex">
 
                       <mat-checkbox [checked]="index === rowIndex"
-                                    (change)="onSelect($event, row)"
+                                    (change)="onSelect($event, row, rowIndex)"
                                     [value]="row" #checkbox>
                       </mat-checkbox>
 

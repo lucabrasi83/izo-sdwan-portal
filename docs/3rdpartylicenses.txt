@@ -251,7 +251,7 @@ Apache License
  See the License for the specific language governing permissions and
  limitations under the License.
 
-primeng@6.0.0-alpha.2
+primeng@6.0.0-beta.1
 MIT
 The MIT License (MIT)
 
@@ -275,9 +275,9 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 
-font-awesome@4.7.0
-(OFL-1.1 AND MIT)
-(OFL-1.1 AND MIT)
+primeicons@1.0.0-beta.6
+MIT
+MIT
 
 core-js@2.5.7
 MIT
@@ -380,7 +380,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 
-@angular/platform-browser@6.0.3
+@angular/platform-browser@6.0.4
 MIT
 MIT
 
@@ -442,7 +442,7 @@ If the Work includes a "NOTICE" text file as part of its distribution, then any 
 
 END OF TERMS AND CONDITIONS
 
-@angular/common@6.0.3
+@angular/common@6.0.4
 MIT
 MIT
 
@@ -475,11 +475,11 @@ LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
 OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-@angular/animations@6.0.3
+@angular/animations@6.0.4
 MIT
 MIT
 
-@angular/router@6.0.3
+@angular/router@6.0.4
 MIT
 MIT
 
@@ -511,11 +511,11 @@ THE SOFTWARE.
 MIT
 MIT
 
-@angular/forms@6.0.3
+@angular/forms@6.0.4
 MIT
 MIT
 
-@angular/core@6.0.3
+@angular/core@6.0.4
 MIT
 MIT
 

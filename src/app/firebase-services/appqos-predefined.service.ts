@@ -69,9 +69,8 @@ export class AppqosPredefinedService {
       {'sdwanprofile': profile}
     ).then(() => {
 
-      setTimeout(() => {
         this.loadingSpinnerSvc.emit(false);
-      }, 2000);
+
 
         this.msgService.add({
           severity: 'success', summary: 'Successful Operation', detail:
@@ -84,9 +83,7 @@ export class AppqosPredefinedService {
     )
       .catch(error => {
 
-        setTimeout(() => {
           this.loadingSpinnerSvc.emit(false);
-        }, 1000);
 
 
         this.msgService.add({
