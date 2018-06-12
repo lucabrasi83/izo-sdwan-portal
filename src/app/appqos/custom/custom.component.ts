@@ -41,6 +41,7 @@ export class CustomComponent implements OnInit {
   cidrPattern = '^([0-9]|[12][0-9]|3[0-2])$';
   portrangePattern = '^(102[4-9]|10[3-9][0-9]|1[1-9][0-9]{2}|[2-9][0-9]{3}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|6553[0-5])$';
   formLoadingSpinner = false;
+  ipaddindex = 0;
 
   ngOnInit() {
 
@@ -295,11 +296,14 @@ export class CustomComponent implements OnInit {
       const control = new FormControl(null, Validators.compose([
         Validators.required,
         Validators.pattern(this.ipaddressPattern),
-        this.forbiddenIPs.bind(this)
+        this.forbiddenIPs.bind(this),
+        this.onDuplicateIPFormArray.bind(this)
       ]));
 
 
       (<FormArray>this.tcpudpAppFormGroup.get('ipaddressArray')).push(control);
+
+
     }
     else {
       return;
@@ -356,6 +360,24 @@ export class CustomComponent implements OnInit {
     return promise;
   }
 
+  onDuplicateIPFormArray(control: FormControl): { [s: string]: boolean } {
+
+
+  if (
+
+      (<FormArray>this.tcpudpAppFormGroup.get('ipaddressArray')).length > 1 &&
+      !(<FormArray>this.tcpudpAppFormGroup.get('ipaddressArray')).value.includes(null) &&
+      (<FormArray>this.tcpudpAppFormGroup.get('ipaddressArray')).value.indexOf(control.value) !== -1)
+
+    {
+      console.log((<FormArray>this.tcpudpAppFormGroup.get('ipaddressArray')).value.indexOf(control.value));
+
+      return {duplicateIP: true};
+    }
+
+    return null;
+
+  }
 
 
 }

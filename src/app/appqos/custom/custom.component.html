@@ -256,7 +256,10 @@
 
             <div class="plus-minus-icons"
                  *ngIf="tcpudpAppFormGroup.get('iptypeCtrl').value === 'ip-address'">
-              <button mat-mini-fab color="accent" type="button" (click)="onAddIPAddress()" class="mr-8">
+              <button mat-mini-fab color="accent"
+                      type="button" (click)="onAddIPAddress()"
+
+                      class="mr-8">
                 <mat-icon>add</mat-icon>
               </button>
               <button mat-mini-fab color="warn" type="button" (click)="onRemoveIPAddress()" class="mr-8">
