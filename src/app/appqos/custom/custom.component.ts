@@ -1,8 +1,11 @@
-import {Component, Inject, OnInit, ViewEncapsulation} from '@angular/core';
+import {Component, ElementRef, Inject, OnInit, ViewChild, ViewEncapsulation} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
-import {FormBuilder, FormGroup, Validators, FormControl, FormArray} from '@angular/forms';
+import {FormBuilder, FormGroup, Validators, FormControl, FormArray } from '@angular/forms';
 import {BlacklistedIpsService} from './blacklisted-ips.service';
 import {BlacklistedPortsService} from './blacklisted-ports.service';
+import {Observable} from 'rxjs';
+import {debounceTime} from 'rxjs/operators';
+
 
 
 @Component({
@@ -17,7 +20,9 @@ export class CustomComponent implements OnInit {
               @Inject(MAT_DIALOG_DATA) public data: any,
               private _formBuilder: FormBuilder,
               private blacklistedIPsSvc: BlacklistedIpsService,
-              private blacklistedPortsSvc: BlacklistedPortsService) {
+              private blacklistedPortsSvc: BlacklistedPortsService)
+               {
+
   }
 
   appNameFormGroup: FormGroup;
@@ -35,6 +40,7 @@ export class CustomComponent implements OnInit {
   appNamePattern = '^[a-zA-Z0-9]{1,500}$';
   cidrPattern = '^([0-9]|[12][0-9]|3[0-2])$';
   portrangePattern = '^(102[4-9]|10[3-9][0-9]|1[1-9][0-9]{2}|[2-9][0-9]{3}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|6553[0-5])$';
+  formLoadingSpinner = false;
 
   ngOnInit() {
 
@@ -42,14 +48,15 @@ export class CustomComponent implements OnInit {
     this.appNameFormGroup =
       this._formBuilder.group({
         appNameCtrl: [
-          '',
+         '',
           Validators.compose(
             [
               Validators.required,
               Validators.minLength(3),
               Validators.maxLength(15),
               Validators.pattern(this.appNamePattern)
-            ])
+            ]),
+          this.forbiddenAppName
         ]
       });
 
@@ -74,6 +81,7 @@ export class CustomComponent implements OnInit {
               Validators.minLength(3),
               Validators.pattern(this.httpurlPattern)
             ])
+
           ]
         }
       );
@@ -129,6 +137,17 @@ export class CustomComponent implements OnInit {
 
     this.blacklistedPorts =
       this.blacklistedPortsSvc.getBlacklistedPorts();
+
+
+    this.appNameFormGroup.statusChanges
+      .pipe(debounceTime(1000))
+      .subscribe((status) =>
+      {
+
+        return this.formLoadingSpinner = status === 'PENDING';
+      }
+    );
+
   }
 
   form1() {
@@ -158,21 +177,49 @@ export class CustomComponent implements OnInit {
 
   compareEndPortNumber(control: FormControl): { [s: string]: boolean } {
     if (this.tcpudpAppFormGroup.get('startportCtrl') &&
+      control.value !== null &&
       this.tcpudpAppFormGroup.get('startportCtrl').dirty &&
-      this.tcpudpAppFormGroup.get('startportCtrl').value >= control.value) {
+      this.tcpudpAppFormGroup.get('startportCtrl').value >= +control.value) {
       return {'EndPortLower': true};
     }
+
+    // Reset Form Control Error when Startport is less than Endport
+    if (this.tcpudpAppFormGroup.get('startportCtrl') &&
+      control.value !== null &&
+      this.tcpudpAppFormGroup.get('startportCtrl').dirty &&
+      this.tcpudpAppFormGroup.get('startportCtrl').value <= +control.value) {
+      this.tcpudpAppFormGroup.get('startportCtrl').setErrors(null);
+      control.setErrors(null);
+      return null;
+    }
+
     return null;
   }
 
   compareStartPortNumber(control: FormControl): { [s: string]: boolean } {
     if (this.tcpudpAppFormGroup.get('endportCtrl') &&
+      control.value !== null &&
       this.tcpudpAppFormGroup.get('endportCtrl').dirty &&
-      this.tcpudpAppFormGroup.get('endportCtrl').value <= control.value) {
+      this.tcpudpAppFormGroup.get('endportCtrl').value <= +control.value) {
       return {'StartPortHigher': true};
     }
+
+    // Reset Form Control when endport is higher than startport
+    if (this.tcpudpAppFormGroup.get('endportCtrl') &&
+      control.value !== null &&
+      this.tcpudpAppFormGroup.get('endportCtrl').touched &&
+      this.tcpudpAppFormGroup.get('endportCtrl').value >= +control.value) {
+      this.tcpudpAppFormGroup.get('endportCtrl').setErrors(null);
+      control.setErrors(null);
+      return null;
+    }
+
+
     return null;
   }
+
+
+
 
 
 
@@ -291,5 +338,24 @@ export class CustomComponent implements OnInit {
   onSubmitForm(): void {
 
   }
+  showForm() {
+    console.log(this.tcpudpAppFormGroup);
+  }
+
+  forbiddenAppName(control: FormControl): Promise<any> | Observable<any> {
+    const promise = new Promise<any>((resolve, reject) => {
+      setTimeout(() => {
+        if (control.value === 'MyApp') {
+          resolve({'emailIsForbidden': true});
+        }
+        else {
+          resolve(null);
+        }
+      }, 2000);
+    });
+    return promise;
+  }
+
+
 
 }
