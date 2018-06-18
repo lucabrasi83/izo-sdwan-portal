@@ -25,6 +25,7 @@ import { AvatarModule } from 'ng2-avatar';
 import {GrowlModule} from 'primeng/growl';
 import {MessageService} from 'primeng/components/common/messageservice';
 
+
 const appRoutes: Routes = [
   {
     path      : '',
@@ -41,6 +42,10 @@ const appRoutes: Routes = [
   {
     path      : 'tasks',
     loadChildren: './taskviewer/taskviewer.module#TaskviewerModule'
+  },
+  {
+    path      : 'dashboard',
+    loadChildren: './dashboard/dashboard.module#DashboardModule'
   }
 ];
 

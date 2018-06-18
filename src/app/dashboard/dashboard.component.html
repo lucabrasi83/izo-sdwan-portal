@@ -1,0 +1,179 @@
+<div id="dashboard-analytics"
+     class="page-layout blank white-100-bg"
+     style="height: 99%;overflow: auto;position: relative;"
+     fusePerfectScrollbar>
+
+  <div class="content p-24">
+
+    <div class="left mr-lg-32">
+
+      <!-- Task Summary Dashboard Start -->
+
+      <div fxLayout="column" fxLayoutAlign="start"
+           fxLayout.gt-sm="row" fxLayoutAlign.gt-sm="start end">
+
+      <div class="content widget" fxLayout="row" fxLayoutAlign="start end">
+
+        <mat-card [ngStyle]="{'padding':'0px'}">
+          <mat-card-header class="mat-light-blue-600-bg">
+          <mat-card-title [ngStyle]="{'font-size':'18px'}">Transactions Summary</mat-card-title>
+          </mat-card-header>
+      <ngx-charts-bar-vertical
+        *fuseIfOnDom
+      [results]="tasks_summary"
+      [animations]="true"
+      [view]="viewTaskSummary"
+      [gradient]="false"
+      [schemeType]="'ordinal'"
+      [xAxis]="true"
+      [customColors]="customTaskSummaryColors"
+      [yAxis]="true"
+      [showXAxisLabel]="true"
+      [showYAxisLabel]="true"
+      >
+
+      </ngx-charts-bar-vertical>
+
+        </mat-card>
+        </div>
+      <!-- Task Summary Dashboard End -->
+
+      <!-- Task Summary Dashboard Start -->
+
+      <div class="content widget" fxLayout="row" fxLayoutAlign="start end">
+
+        <mat-card [ngStyle]="{'padding':'0px'}">
+          <mat-card-header class="mat-light-blue-600-bg">
+          <mat-card-title [ngStyle]="{'font-size':'18px'}">Devices by Model</mat-card-title>
+          </mat-card-header>
+          <ngx-charts-pie-chart
+            *fuseIfOnDom
+            [results]="devicesByModel"
+            [animations]="true"
+            [view]="viewDevicesPieCharts"
+            [gradient]="true"
+            [schemeType]="'ordinal'"
+            [scheme]="'picnic'"
+            [doughnut] = "false"
+            [labels]="true"
+            [legend]="false"
+            [trimLabels]="false"
+            [arcWidth]="0.3"
+          >
+
+          </ngx-charts-pie-chart>
+
+        </mat-card>
+      </div>
+      <!-- Task Summary Dashboard End -->
+        <!-- Task Summary Dashboard Start -->
+
+        <div class="content widget" fxLayout="row" fxLayoutAlign="start end">
+
+          <mat-card [ngStyle]="{'padding':'0px'}">
+            <mat-card-header class="mat-light-blue-600-bg">
+            <mat-card-title [ngStyle]="{'font-size':'18px'}">Devices by Status</mat-card-title>
+              </mat-card-header>
+            <ngx-charts-pie-chart
+              *fuseIfOnDom
+              [results]="devicesByStatus"
+              [animations]="true"
+              [view]="viewDevicesPieCharts"
+              [customColors]="customDeviceByStatusColors"
+              [gradient]="true"
+              [schemeType]="'ordinal'"
+              [doughnut] = "false"
+              [legend]="false"
+              [labels]="true"
+              [trimLabels]="false"
+              [arcWidth]="0.3"
+            >
+
+            </ngx-charts-pie-chart>
+
+          </mat-card>
+        </div>
+        <!-- Task Summary Dashboard End -->
+      </div>
+
+      <!-- Sites Map Start -->
+      <div class="content p-32"
+           fxLayoutAlign="start end"
+           fxFlex="auto" style="display: flex;flex-direction: row;">
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>Worldwide Sites Map</mat-card-title>
+      <mat-card-subtitle>Click on the marker to view site details</mat-card-subtitle>
+    </mat-card-header>
+        <agm-map style="height: 768px; width: 1024px;"
+                 #AgmMap
+                 [minZoom]="2"
+                 [maxZoom]="18"
+                 [zoom]="mapZoom"
+                 [latitude]="mapLat"
+                 [longitude]="mapLng"
+                 [fullscreenControl]="false"
+                 [rotateControl]="false"
+                 [usePanning]="true"
+                 [mapDraggable]="false"
+                 [zoomControl]="false"
+                 [disableDoubleClickZoom]="false"
+                 [scaleControl]="true"
+                 [streetViewControl]="false"
+                 [scrollwheel]="false"
+                 [clickableIcons]="false"
+                 [disableDefaultUI]="false"
+                 (zoomChange)="onZoomChange()">
+
+          <agm-marker-cluster [imagePath]="'https://googlemaps.github.io/js-marker-clusterer/images/m'">
+            <agm-marker
+              *ngFor="let marker of markers"
+              [latitude]="marker.lat"
+              [longitude]="marker.lng"
+              [iconUrl]="'/assets/icons/if_map-marker_299087.png'"
+              (markerClick)="onMarkerClick(marker.lat, marker.lng)">
+
+              <agm-info-window
+                (infoWindowClose)="onInfoWindowClose()">
+                <strong style="font-size: 18px">TCL-SG-SDWAN-PRIME-OKIVEGOTIT</strong>
+                <br>
+                <div *ngIf="marker.status === 'ONLINE'">
+                  <p style="font-size: 14px;">Device Status:
+                    <mat-icon
+                      class="mb-8"
+                      style="vertical-align: middle;
+                      font-size: 24px;
+                      color: limegreen;">
+                      wifi_on
+                    </mat-icon>
+                  </p>
+                </div>
+                <div *ngIf="marker.status === 'OFFLINE'">
+                  <p style="font-size: 14px;">Device Status:
+                    <mat-icon
+                      class="mb-8"
+                      style="vertical-align: middle;
+                      font-size: 24px;
+                      color: #F44336;">
+                      wifi_off
+                    </mat-icon>
+                  </p>
+                </div>
+              </agm-info-window>
+
+            </agm-marker>
+          </agm-marker-cluster>
+        </agm-map>
+  </mat-card>
+      </div>
+      <!-- Sites Map End -->
+      <div class="mt-48">
+      </div>
+
+    </div>
+
+      </div>
+
+    </div>
+
+

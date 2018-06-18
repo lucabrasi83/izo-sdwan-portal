@@ -258,11 +258,15 @@
                  *ngIf="tcpudpAppFormGroup.get('iptypeCtrl').value === 'ip-address'">
               <button mat-mini-fab color="accent"
                       type="button" (click)="onAddIPAddress()"
-
+                      [disabled]="tcpudpAppFormGroup.get('ipaddressArray').length === 8"
                       class="mr-8">
                 <mat-icon>add</mat-icon>
               </button>
-              <button mat-mini-fab color="warn" type="button" (click)="onRemoveIPAddress()" class="mr-8">
+              <button mat-mini-fab color="warn"
+                      type="button"
+                      (click)="onRemoveIPAddress()"
+                      [disabled]="tcpudpAppFormGroup.get('ipaddressArray').length === 0"
+                      class="mr-8">
                 <mat-icon>remove</mat-icon>
               </button>
             </div>
@@ -310,6 +314,11 @@
               </mat-error>
 
               <mat-error *ngIf="tcpudpAppFormGroup.get('ipaddressArray').controls[i].errors &&
+               tcpudpAppFormGroup.get('ipaddressArray').controls[i].errors['duplicateIP']">
+                Duplicate IPv4 Address
+              </mat-error>
+
+              <mat-error *ngIf="tcpudpAppFormGroup.get('ipaddressArray').controls[i].errors &&
                tcpudpAppFormGroup.get('ipaddressArray').controls[i].errors['required']">
                 IPv4 address is required
               </mat-error>
@@ -335,6 +344,7 @@
                tcpudpAppFormGroup.get('subnetaddressCtrl').errors['IPIsForbidden']">
                 IPv4 Subnet Address not allowed
               </mat-error>
+
 
               <mat-error *ngIf="tcpudpAppFormGroup.get('subnetaddressCtrl').errors &&
                tcpudpAppFormGroup.get('subnetaddressCtrl').errors.pattern">
@@ -391,11 +401,21 @@
             <!-- Individual Ports Form Section START-->
 
             <div class="plus-minus-icons" *ngIf="tcpudpAppFormGroup.get('porttypeCtrl').value === 'ports'">
-              <button mat-mini-fab color="accent" type="button" (click)="onAddPort()" class="mr-8">
+              <button mat-mini-fab
+                      color="accent"
+                      type="button"
+                      (click)="onAddPort()"
+                      [disabled]="tcpudpAppFormGroup.get('portsArray').length === 8"
+                      class="mr-8">
                 <mat-icon>add</mat-icon>
               </button>
 
-              <button mat-mini-fab color="warn" type="button" (click)="onRemovePort()" class="mr-8">
+              <button mat-mini-fab
+                      color="warn"
+                      type="button"
+                      (click)="onRemovePort()"
+                      [disabled]="tcpudpAppFormGroup.get('portsArray').length === 0"
+                      class="mr-8">
                 <mat-icon>remove</mat-icon>
               </button>
             </div>
@@ -433,6 +453,11 @@
         <mat-error *ngIf="tcpudpAppFormGroup.get('portsArray').controls[i].errors &&
                tcpudpAppFormGroup.get('portsArray').controls[i].errors['PortIsForbidden']">
           This Port Number is not allowed
+        </mat-error>
+
+        <mat-error *ngIf="tcpudpAppFormGroup.get('portsArray').controls[i].errors &&
+               tcpudpAppFormGroup.get('portsArray').controls[i].errors['duplicatePort']">
+          Duplicate Port Number
         </mat-error>
 
         <mat-error *ngIf="tcpudpAppFormGroup.get('portsArray').controls[i].errors &&

@@ -25,7 +25,6 @@ export class FuseMainComponent implements OnDestroy, OnInit
     firebaseInvSub: Subscription;
     fuseSettings: any;
     dialogRef: any;
-    rowSelected: boolean;
     deviceSelected: any;
     loadingIndicator: boolean;
     index: number;

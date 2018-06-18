@@ -57,7 +57,7 @@ export class LoginComponent implements OnInit {
     this.authService.signInRegular(email.value, password.value)
       .then((res) => {
         this.db.database.goOnline();
-        this.router.navigate(['main']);
+        this.router.navigate(['dashboard']);
 
       })
       .catch((err) => {

@@ -41,7 +41,7 @@ export class CustomComponent implements OnInit {
   cidrPattern = '^([0-9]|[12][0-9]|3[0-2])$';
   portrangePattern = '^(102[4-9]|10[3-9][0-9]|1[1-9][0-9]{2}|[2-9][0-9]{3}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|6553[0-5])$';
   formLoadingSpinner = false;
-  ipaddindex = 0;
+
 
   ngOnInit() {
 
@@ -234,7 +234,9 @@ export class CustomComponent implements OnInit {
     if ($event.value ===
       'ip-address') {
       this.tcpudpAppFormGroup.addControl('ipaddressArray', new FormArray([], Validators.compose([
-        Validators.required
+        Validators.required,
+        this.onDuplicateIPFormArray.bind(this)
+
       ])));
     }
 
@@ -265,7 +267,8 @@ export class CustomComponent implements OnInit {
     if ($event.value ===
       'ports') {
       this.tcpudpAppFormGroup.addControl('portsArray', new FormArray([], Validators.compose([
-        Validators.required
+        Validators.required,
+        this.onDuplicatePortsFormArray.bind(this)
       ])));
     }
 
@@ -290,19 +293,17 @@ export class CustomComponent implements OnInit {
 
   onAddIPAddress() {
 
-    if ((<FormArray>this.tcpudpAppFormGroup.get('ipaddressArray')).length <
-      8) {
+    if ((<FormArray>this.tcpudpAppFormGroup.get('ipaddressArray')).length < 8) {
 
       const control = new FormControl(null, Validators.compose([
         Validators.required,
         Validators.pattern(this.ipaddressPattern),
-        this.forbiddenIPs.bind(this),
-        this.onDuplicateIPFormArray.bind(this)
+        this.forbiddenIPs.bind(this)
+
       ]));
 
 
       (<FormArray>this.tcpudpAppFormGroup.get('ipaddressArray')).push(control);
-
 
     }
     else {
@@ -313,6 +314,8 @@ export class CustomComponent implements OnInit {
 
   onRemoveIPAddress() {
     (<FormArray>this.tcpudpAppFormGroup.get('ipaddressArray')).removeAt(-1);
+
+
   }
 
 
@@ -360,24 +363,58 @@ export class CustomComponent implements OnInit {
     return promise;
   }
 
-  onDuplicateIPFormArray(control: FormControl): { [s: string]: boolean } {
+
+  onDuplicateIPFormArray(): { [s: string]: boolean } {
+
+    if ( (<FormArray>this.tcpudpAppFormGroup.get('ipaddressArray') )) {
+
+     let counts = [];
 
 
-  if (
+    // Check for duplicate control value in form array and set Error accordingly
+    for (let i = 0; i < (<FormArray>this.tcpudpAppFormGroup.get('ipaddressArray')).length; i++) {
+      if (counts[(<FormArray>this.tcpudpAppFormGroup.get('ipaddressArray')).value[i]] === undefined) {
+        counts[(<FormArray>this.tcpudpAppFormGroup.get('ipaddressArray')).value[i]] = 1;
+        if ((<FormArray>this.tcpudpAppFormGroup.get('ipaddressArray')).controls[i].hasError('duplicateIP')) {
+          (<FormArray>this.tcpudpAppFormGroup.get('ipaddressArray')).controls[i].setErrors(null);
+        }
+      }
 
-      (<FormArray>this.tcpudpAppFormGroup.get('ipaddressArray')).length > 1 &&
-      !(<FormArray>this.tcpudpAppFormGroup.get('ipaddressArray')).value.includes(null) &&
-      (<FormArray>this.tcpudpAppFormGroup.get('ipaddressArray')).value.indexOf(control.value) !== -1)
+      else {
+        (<FormArray>this.tcpudpAppFormGroup.get('ipaddressArray')).controls[i].setErrors({duplicateIP: true});
+        return {duplicateIPinArray: true};
 
-    {
-      console.log((<FormArray>this.tcpudpAppFormGroup.get('ipaddressArray')).value.indexOf(control.value));
 
-      return {duplicateIP: true};
+      }
+    }
+  }
+  return null;
+  }
+
+  onDuplicatePortsFormArray() {
+
+    if ( (<FormArray>this.tcpudpAppFormGroup.get('portsArray') )) {
+
+      let counts = [];
+
+      // Check for duplicate control value in form array and set Error accordingly
+      for (let i = 0; i < (<FormArray>this.tcpudpAppFormGroup.get('portsArray')).length; i++) {
+        if (counts[(<FormArray>this.tcpudpAppFormGroup.get('portsArray')).value[i]] === undefined) {
+          counts[(<FormArray>this.tcpudpAppFormGroup.get('portsArray')).value[i]] = 1;
+          if ((<FormArray>this.tcpudpAppFormGroup.get('portsArray')).controls[i].hasError('duplicatePort')) {
+            (<FormArray>this.tcpudpAppFormGroup.get('portsArray')).controls[i].setErrors(null);
+          }
+        }
+        else {
+          (<FormArray>this.tcpudpAppFormGroup.get('portsArray')).controls[i].setErrors({duplicatePort: true});
+
+        }
+      }
     }
 
-    return null;
-
   }
+
+
 
 
 }

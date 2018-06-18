@@ -61,6 +61,12 @@ export class FuseShortcutsComponent implements OnInit, OnDestroy
             // User's shortcut items
             this.shortcutItems = [
                 {
+                'title': 'Dashboard',
+                'type' : 'nav-item',
+                'icon' : 'dashboard',
+                'url'  : '/dashboard'
+                },
+                {
                     'title': 'Sites Inventory',
                     'type' : 'nav-item',
                     'icon' : 'public',
