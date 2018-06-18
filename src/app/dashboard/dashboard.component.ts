@@ -75,40 +75,91 @@ export class DashboardComponent implements OnInit, OnDestroy {
   markers = [
     {
       lat: 1.336588,
-      lng: 103.886607,
-      status: 'ONLINE'
+      lng: 103.88880100000006,
+      status: 'ONLINE',
+      site: 'TCL-SG-SINGAPORE-SDWAN-PRIME'
     },
     {
       lat: 22.2784388,
-      lng: 114.1825205,
-      status: 'OFFLINE'
+      lng: 114.18471449999993,
+      status: 'OFFLINE',
+      site: 'TCL-HK-HONGKONG-SDWAN-PRIME'
 
     },
     {
       lat: 48.8816121,
-      lng: 2.2696479,
-      status: 'ONLINE'
+      lng: 2.2718419000000267,
+      status: 'ONLINE',
+      site: 'TCL-FR-PARIS-SDWAN-PRIME'
     },
     {
       lat: 19.0691644,
-      lng: 72.8694513,
-      status: 'OFFLINE'
+      lng: 72.87164529999995,
+      status: 'OFFLINE',
+      site: 'TCL-IN-MUMBAI-SDWAN-PRIME'
     },
     {
       lat: 37.4063062,
-      lng: -121.9786873,
-      status: 'ONLINE'
+      lng: -121.97649330000002,
+      status: 'ONLINE',
+      site: 'TCL-US-SANTACLARA-SDWAN-PRIME'
+    },
+    {
+      lat: 40.7554075,
+      lng: -73.9789116,
+      status: 'ONLINE',
+      site: 'TCL-US-NEWYORK-SDWAN-PRIME'
+    },
+    {
+      lat: 45.4808753,
+      lng: -73.54014690000002,
+      status: 'ONLINE',
+      site: 'TCL-CA-MONTREAL-SDWAN-PRIME'
     },
     {
       lat: 51.510783,
-      lng: -0.0961382,
-      status: 'ONLINE'
+      lng: -0.09394420000000991,
+      status: 'ONLINE',
+      site: 'TCL-UK-LONDON-SDWAN-PRIME'
     },
     {
-      lat: 50.1149458,
-      lng: 8.6468276,
-      status: 'OFFLINE'
-    }
+      lat: 50.1149424,
+      lng: 8.649016299999971,
+      status: 'ONLINE',
+      site: 'TCL-DE-FRANKFURT-SDWAN-PRIME'
+    },
+    {
+      lat: 40.4314381,
+      lng: -74.24920780000002,
+      status: 'ONLINE',
+      site: 'TCL-US-MATAWAN-SDWAN-PRIME'
+    },
+    {
+      lat: 51.6198638,
+      lng: -0.7792074999999841,
+      status: 'OFFLINE',
+      site: 'TCL-UK-CRESSEX-SDWAN-PRIME'
+    },
+    {
+      lat: 18.602495,
+      lng: 73.865002,
+      status: 'ONLINE',
+      site: 'TCL-IN-PUNE-SDWAN-PRIME'
+    },
+
+    {
+      lat: 13.1316877,
+      lng: 80.16576650000002,
+      status: 'ONLINE',
+      site: 'TCL-IN-CHENNAI-SDWAN-PRIME'
+    },
+    {
+      lat: -33.8677371,
+      lng: 151.20169350000003,
+      status: 'ONLINE',
+      site: 'TCL-AU-SYDNEY-SDWAN-PRIME'
+    },
+
   ];
 
   tasks_summary = [
@@ -194,7 +245,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   onMarkerClick(lat, lng) {
     this.mapZoom =
-      18;
+      19;
     this.mapLat =
       lat;
     this.mapLng =
