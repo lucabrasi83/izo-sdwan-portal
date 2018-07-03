@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { RouterModule, Routes } from '@angular/router';
+import {PreloadAllModules, RouterModule, Routes} from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import 'hammerjs';
 
@@ -53,8 +53,6 @@ const appRoutes: Routes = [
     declarations: [
         AppComponent
 
-
-
     ],
     imports     : [
         BrowserModule,
@@ -75,7 +73,7 @@ const appRoutes: Routes = [
         LoginModule,
         GrowlModule,
         AvatarModule.forRoot(),
-        RouterModule.forRoot(appRoutes),
+        RouterModule.forRoot(appRoutes, {preloadingStrategy: PreloadAllModules}),
     ],
     bootstrap   : [
         AppComponent

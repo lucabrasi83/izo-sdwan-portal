@@ -4,6 +4,7 @@
           disabled
           mat-fab color="warn" [ngClass]="{'button-follow-1': true}"
           (click)="staticRouteForm()" [disabled]="!deviceSelected"
+          *fuseIfOnDom [@animate]="{value:'*', params:{delay:'300ms',scale:'0.2'}}"
           matTooltip="Manage Static Routes">
     <mat-icon class="mat-36" aria-label="Static Routes">router</mat-icon>
   </button>
@@ -12,6 +13,7 @@
           mat-fab color="accent" [ngClass]="{'button-follow-2': true}"
           [disabled]="!deviceSelected"
           matTooltip="Site Failover"
+          *fuseIfOnDom [@animate]="{value:'*', params:{delay:'400ms',scale:'0.2'}}"
           (click)="createFeaturePendingMsg()">
     <mat-icon class="mat-36" aria-label="Site Failover">swap_vertical_circle</mat-icon>
   </button>
@@ -20,6 +22,7 @@
           mat-fab color="" [ngClass]="{'button-follow-3': true}"
           [disabled]="!deviceSelected"
           matTooltip="Poll Device"
+          *fuseIfOnDom [@animate]="{value:'*', params:{delay:'500ms',scale:'0.2'}}"
           (click)="createFeaturePendingMsg()">
     <mat-icon class="mat-36" aria-label="Poll Device">loop</mat-icon>
   </button>
@@ -36,7 +39,7 @@
     </div>
   </div>
 
-<div class="content p-24" fusePerfectScrollbar>
+<div class="content p-24" fusePerfectScrollbar >
                 <ngx-datatable
                   #table
                   [rows]="rows | async"

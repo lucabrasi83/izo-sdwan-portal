@@ -14,6 +14,7 @@
         disabled
         [disabled]="!appAssignButton"
         matTooltip="Assign App"
+        *fuseIfOnDom [@animate]="{value:'*', params:{delay:'300ms',scale:'0.2'}}"
         (click) = "onClickAssignApp()"
         >
   <mat-icon class="mat-36" aria-label="Assign App">cloud_done</mat-icon>
@@ -22,6 +23,7 @@
         disabled
         [disabled]="!appMoveButton"
         matTooltip="Move App"
+        *fuseIfOnDom [@animate]="{value:'*', params:{delay:'400ms',scale:'0.2'}}"
         (click)="onClickMoveApp()"
 >
   <mat-icon class="mat-36" aria-label="Move App">cloud_upload</mat-icon>
@@ -30,6 +32,7 @@
         disabled
         [disabled]="!appUnassignButton"
         matTooltip="Unassign App"
+        *fuseIfOnDom [@animate]="{value:'*', params:{delay:'500ms',scale:'0.2'}}"
         (click)="onClickUnassignApp()"
 >
   <mat-icon class="mat-36" aria-label="Unassign App">cloud_off</mat-icon>
@@ -38,6 +41,7 @@
 <button mat-fab color="warn" [ngClass]="{'addapp-button': true}"
 
         matTooltip="Create Custom App"
+        *fuseIfOnDom [@animate]="{value:'*', params:{delay:'600ms',scale:'0.2'}}"
         (click)="onCreateCustomApp()"
         >
   <mat-icon class="mat-36" aria-label="Create CUstom App">add</mat-icon>

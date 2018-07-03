@@ -7,13 +7,15 @@ import {Subscription} from 'rxjs/Subscription';
 import {MessageService} from 'primeng/components/common/messageservice';
 import {AppqosPredefinedService} from '../firebase-services/appqos-predefined.service';
 import {CustomComponent} from './custom/custom.component';
+import {fuseAnimations} from '../../@fuse/animations';
 
 
 @Component({
   selector: 'fuse-appqos',
   templateUrl: './appqos.component.html',
   styleUrls: ['./appqos.component.scss'],
-  encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None,
+  animations: fuseAnimations
 })
 export class AppqosComponent implements OnInit, OnDestroy {
 

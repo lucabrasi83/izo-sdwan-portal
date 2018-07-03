@@ -7,7 +7,8 @@ import { FuseSharedModule } from '@fuse/shared.module';
 import {AgmCoreModule } from '@agm/core';
 import {NgxChartsModule} from '@swimlane/ngx-charts';
 import { AgmJsMarkerClustererModule } from '@agm/js-marker-clusterer';
-import { MatCardModule, MatIconModule } from '@angular/material';
+import { MatCardModule, MatIconModule, MatChipsModule, MatExpansionModule, MatButtonModule } from '@angular/material';
+
 
 
 const routes: Routes = [
@@ -30,8 +31,10 @@ const routes: Routes = [
     RouterModule.forChild(routes),
     FuseSharedModule,
     MatCardModule,
-    MatIconModule
-
+    MatIconModule,
+    MatChipsModule,
+    MatExpansionModule,
+    MatButtonModule
   ],
   declarations: [DashboardComponent]
 })

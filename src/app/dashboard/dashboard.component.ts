@@ -23,6 +23,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   firebaseInvSub: Subscription;
   tenant: any;
 
+
   viewTaskSummary = [
     500,
     400

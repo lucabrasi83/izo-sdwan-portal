@@ -10,12 +10,15 @@ import {DatatableComponent} from '@swimlane/ngx-datatable';
 import {InventoryService} from '../firebase-services/inventory.service';
 import {Inventory} from '../firebase-model/inventory.model';
 import {MessageService} from 'primeng/components/common/messageservice';
+import {fuseAnimations} from '../../@fuse/animations';
+
 
 @Component({
     selector     : 'fuse-main',
     templateUrl  : './main.component.html',
     styleUrls    : ['./main.component.scss'],
-    encapsulation: ViewEncapsulation.None
+    encapsulation: ViewEncapsulation.None,
+    animations: fuseAnimations
 })
 export class FuseMainComponent implements OnDestroy, OnInit
 {

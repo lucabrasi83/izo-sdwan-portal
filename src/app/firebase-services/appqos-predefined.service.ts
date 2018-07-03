@@ -1,9 +1,9 @@
 import {EventEmitter, Injectable} from '@angular/core';
 import {AngularFireDatabase} from 'angularfire2/database';
-import {Observable} from 'rxjs/Observable';
+import {Observable, Subject} from 'rxjs';
 import {LoginService} from '../login/login.service';
 import {MessageService} from 'primeng/components/common/messageservice';
-import {Subject} from 'rxjs/Subject';
+
 
 @Injectable({providedIn: 'root'})
 export class AppqosPredefinedService {

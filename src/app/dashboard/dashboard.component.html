@@ -15,7 +15,7 @@
       <div class="content widget" fxLayout="row" fxLayoutAlign="start end">
 
         <mat-card [ngStyle]="{'padding':'0px'}">
-          <mat-card-header class="mat-light-blue-600-bg">
+          <mat-card-header class="mat-light-blue-500-bg">
           <mat-card-title [ngStyle]="{'font-size':'18px'}">Transactions Summary</mat-card-title>
           </mat-card-header>
       <ngx-charts-bar-vertical
@@ -43,7 +43,7 @@
       <div class="content widget" fxLayout="row" fxLayoutAlign="start end">
 
         <mat-card [ngStyle]="{'padding':'0px'}">
-          <mat-card-header class="mat-light-blue-600-bg">
+          <mat-card-header class="mat-light-blue-500-bg">
           <mat-card-title [ngStyle]="{'font-size':'18px'}">Devices by Model</mat-card-title>
           </mat-card-header>
           <ngx-charts-pie-chart
@@ -71,7 +71,7 @@
         <div class="content widget" fxLayout="row" fxLayoutAlign="start end">
 
           <mat-card [ngStyle]="{'padding':'0px'}">
-            <mat-card-header class="mat-light-blue-600-bg">
+            <mat-card-header class="mat-light-blue-500-bg">
             <mat-card-title [ngStyle]="{'font-size':'18px'}">Devices by Status</mat-card-title>
               </mat-card-header>
             <ngx-charts-pie-chart
@@ -96,6 +96,9 @@
         <!-- Task Summary Dashboard End -->
       </div>
 
+
+      <div fxLayout="column" fxLayoutAlign="start"
+           fxLayout.gt-sm="row" fxLayoutAlign.gt-sm="start end">
       <!-- Sites Map Start -->
       <div class="content p-32"
            fxLayoutAlign="start end"
@@ -106,6 +109,7 @@
       <mat-card-subtitle>Click on the marker to view site details</mat-card-subtitle>
     </mat-card-header>
         <agm-map style="height: 768px; width: 1024px;"
+                 *fuseIfOnDom
                  #AgmMap
                  [minZoom]="2"
                  [maxZoom]="19"
@@ -167,6 +171,107 @@
   </mat-card>
       </div>
       <!-- Sites Map End -->
+      <div class="content pl-16"
+           fxLayoutAlign="start end"
+           fxFlex="auto" style="display: flex;flex-direction: row;">
+        <mat-card [ngStyle]="{'padding':'0px'}">
+          <mat-card-header class="mat-light-blue-500-bg">
+            <mat-card-title [ngStyle]="{'font-size':'18px'}">Tickets recently open</mat-card-title>
+          </mat-card-header>
+          <div style="height: 838px;width: 600px;"  *fuseIfOnDom>
+            <mat-accordion >
+              <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                  <mat-panel-title fxFlex="auto" fxLayoutAlign="center center">
+                    Personal data
+                  </mat-panel-title>
+                </mat-expansion-panel-header>
+                <p>Title: Site SINGAPORE down</p>
+                <p>Category: <button mat-mini-fab color="warn">P1</button></p>
+                <mat-chip-list> <p>Status:<mat-chip color="accent" selected="true">PENDING</mat-chip></p></mat-chip-list>
+                <button mat-raised-button color="accent">View Details</button>
+              </mat-expansion-panel>
+              <br>
+              <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                  <mat-panel-title>
+                    Self aware panel
+                  </mat-panel-title>
+                  <mat-panel-description>Currently I am don't know
+                  </mat-panel-description>
+                </mat-expansion-panel-header>
+                <p>I'm visible because I am open</p>
+              </mat-expansion-panel>
+              <br>
+              <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                  <mat-panel-title>
+                    Personal data
+                  </mat-panel-title>
+                  <mat-panel-description>
+                    Type your name and age
+                  </mat-panel-description>
+                </mat-expansion-panel-header>
+
+                <strong>Hello</strong>
+              </mat-expansion-panel>
+              <br>
+              <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                  <mat-panel-title>
+                    Self aware panel
+                  </mat-panel-title>
+                  <mat-panel-description>
+                    Currently I am don't know
+                  </mat-panel-description>
+                </mat-expansion-panel-header>
+                <p>I'm visible because I am open</p>
+              </mat-expansion-panel>
+              <br>
+              <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                  <mat-panel-title>
+                    Personal data
+                  </mat-panel-title>
+                  <mat-panel-description>
+                    Type your name and age
+                  </mat-panel-description>
+                </mat-expansion-panel-header>
+
+                <strong>Hello</strong>
+              </mat-expansion-panel>
+              <br>
+              <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                  <mat-panel-title>
+                    Self aware panel
+                  </mat-panel-title>
+                  <mat-panel-description>
+                    Currently I am don't know
+                  </mat-panel-description>
+                </mat-expansion-panel-header>
+                <p>I'm visible because I am open</p>
+              </mat-expansion-panel>
+              <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                  <mat-panel-title>
+                    Personal data
+                  </mat-panel-title>
+                  <mat-panel-description>
+                    Type your name and age
+                  </mat-panel-description>
+                </mat-expansion-panel-header>
+
+                <strong>Hello</strong>
+              </mat-expansion-panel>
+
+
+
+            </mat-accordion>
+          </div>
+        </mat-card>
+      </div>
+      </div>
       <div class="mt-48">
       </div>
 
